@@ -1,0 +1,51 @@
+#定义页面模板返回前缀和后缀
+# 定位模板的目录
+spring:
+  mvc:
+    view:
+      prefix: classpath:/templates/
+  # 给返回的页面添加后缀名
+      suffix: .html
+#页面模板是否使用缓存
+    cache: false
+
+  #数据库连接池类型
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/taling
+    username: root
+    password: root123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  #热部署配置
+  devtools:
+    add-properties: true
+    #重启范围
+    restart:
+      additional-paths: src/main/java
+  thymeleaf:
+    cache: false
+    mode: HTML5
+    check-template: true
+    servlet:
+      content-type: text/html
+    encoding: UTF-8
+
+#配置mybatis的 mapper路径
+mybatis:
+  mapper-locations: classpath:/mapping/*.xml
+  #开启驼峰映射
+  configuration:
+    map-underscore-to-camel-case: true
+
+#pagehelper分页
+pagehelper:
+  helper-dialect: mysql
+  params: countSql
+  reasonable: true
+  support-methods-arguments: true

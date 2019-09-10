@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uxunchina.taling.mapper.UserMapper">
+
+    <resultMap type="com.uxunchina.taling.entity.User" id="UserMap">
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="salt" column="salt" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap type="com.uxunchina.taling.bean.UserRoleBean" id="userRoleBeanMap">
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <result property="roleDescription" column="description" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap type="com.uxunchina.taling.bean.UserRolePermissionBean" id="userRolePermissionBeanMap">
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+        <result property="permissionId" column="permission_id" jdbcType="INTEGER"/>
+        <result property="permission" column="permission" jdbcType="VARCHAR"/>
+        <result property="permissionName" column="permission_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserMap">
+        select
+          user_id, create_time, nick_name, password, salt, state, user_name
+        from user
+        where user_id = #{userId}
+    </select>
+
+    <!--根据用户名查询用户信息-->
+    <select id="queryByUserName" resultMap="UserMap">
+        select
+          user_id, create_time, nick_name, password, salt, state, user_name
+        from user
+        where user_name = #{userName}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserMap">
+        select
+          user_id, create_time, nick_name, password, salt, state, user_name
+        from user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserMap">
+        select
+          user_id, create_time, nick_name, password, salt, state, user_name
+        from user
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and nick_name = #{nickName}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="salt != null and salt != ''">
+                and salt = #{salt}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
+        insert into user(create_time, nick_name, password, salt, state, user_name)
+        values (#{createTime}, #{nickName}, #{password}, #{salt}, #{state}, #{userName})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update user
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="salt != null and salt != ''">
+                salt = #{salt},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from user where user_id = #{userId}
+    </delete>
+
+    <!--根据用户名查询用户角色-->
+    <select id="findUserRoleByUserName" resultMap="userRoleBeanMap">
+        select sr.role_id,sr.role,sr.description,u.user_id,u.user_name from sysrole sr
+        left join sysuserrole sur on sr.role_id = sur.role_id
+        left join user u on u.user_id = sur.role_id
+        where u.user_name = #{userName}
+    </select>
+
+    <!--根据用户名查询用户权限-->
+    <select id="findUserRolePermissionByUserName" resultMap="userRolePermissionBeanMap">
+        select u.user_id,u.user_name,sur.role_id,sp.permission_id,sp.permission,sp.permission_name from user u
+        inner join sysuserrole sur on u.user_id = sur.user_id
+        inner join sysrolepermission srp on sur.role_id = srp.role_id
+        inner join syspermission sp on srp.permission_id = sp.permission_id
+        where u.user_name=#{userName}
+    </select>
+
+</mapper>

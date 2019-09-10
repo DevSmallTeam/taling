@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <meta charset="utf-8">
+
+
+    <title>用户登录</title>
+
+
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row center">
+        <div class="divBorder col-sm-offset-4 col-sm-4">
+            <h3 class="panel panel-heading h4font">
+                用户登录
+            </h3>
+            <form th:action= "@{/login}" method="post">
+                    <input type="text" class="form-control" name="userName" placeholder="请输入用户名称"
+                           th:value="${userName}"/>
+                    <input type="password" class="form-control" name="password" th:value="${password}"
+                           placeholder="请输入密码"/>
+
+                <br>
+                <input type="submit" name="btnLogin" class="btn btn-lg btn-block btn-info" value="登 录">
+            </form>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+</body>
+</html>
