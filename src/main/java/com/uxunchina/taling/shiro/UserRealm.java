@@ -1,4 +1,4 @@
-package com.uxunchina.taling.shrio;
+package com.uxunchina.taling.shiro;
 
 import com.uxunchina.taling.bean.UserRoleBean;
 import com.uxunchina.taling.bean.UserRolePermissionBean;

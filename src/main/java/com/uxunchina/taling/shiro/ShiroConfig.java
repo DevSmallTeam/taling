@@ -1,18 +1,28 @@
-package com.uxunchina.taling.shrio;
+package com.uxunchina.taling.shiro;
 
 import com.uxunchina.taling.utils.ShiroUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSentinelManager;
+import org.crazycake.shiro.RedisSessionDAO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import redis.clients.jedis.JedisPoolConfig;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -26,6 +36,29 @@ import java.util.Properties;
 @Configuration
 public class ShiroConfig {
 
+    @Value("${spring.redis.model}")
+    private String model;
+
+    @Value("${spring.redis.host}")
+    private String host;
+
+    @Value("${spring.redis.port}")
+    private int port;
+
+    @Value("${spring.redis.sentinel.master}")
+    private String master;
+
+    @Value("${spring.redis.sentinel.nodes}")
+    private String nodes;
+
+    @Value("${spring.redis.password:}")
+    private String password;
+
+    @Value("${spring.redis.timeout}")
+    private int timeout;
+
+    @Value("${spring.redis.database:0}")
+    private int database;
 
     /**
      * 凭证匹配器
@@ -47,6 +80,9 @@ public class ShiroConfig {
     public UserRealm userRealm(){
         UserRealm userRealm = new UserRealm();
         userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        //身份认证缓存关闭
+        userRealm.setAuthenticationCachingEnabled(false);
+        userRealm.setAuthorizationCachingEnabled(true);
         return userRealm;
     }
 
@@ -57,8 +93,14 @@ public class ShiroConfig {
     @Bean
     public DefaultWebSecurityManager securityManager(){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(userRealm());
+        // 配置 缓存管理类 cacheManager
+        securityManager.setCacheManager(cacheManager());
+        // 配置 shiro session管理器
+        securityManager.setSessionManager(sessionManager());
+        // 配置 rememberMeCookie
         securityManager.setRememberMeManager(rememberMeManager());
+        // 配置 SecurityManager，并注入 userRealm
+        securityManager.setRealm(userRealm());
         return securityManager;
     }
 
@@ -72,6 +114,9 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
+        //自定义拦截器
+        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
+        shiroFilterFactoryBean.setFilters(filtersMap);
         //注意此处使用的是LinkedHashMap，是有顺序的，shiro会按从上到下的顺序匹配验证，匹配了就不再继续验证
         //所以上面的url要苛刻，宽松的url要放在下面，尤其是"/**"要放到最下面，如果放前面的话其后的验证规则就没作用了。
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
@@ -89,8 +134,6 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/captcha.jpg", "anon");
         filterChainDefinitionMap.put("/favicon.ico", "anon");
-//        filterChainDefinitionMap.put("/**","anon");
-//        filterChainDefinitionMap.put("/**", "authc");
         filterChainDefinitionMap.put("/**", "user");
 
         //设置登录页面
@@ -106,7 +149,11 @@ public class ShiroConfig {
     /**
      * 开启shiro aop注解支持.
      * 使用代理方式;所以需要开启代码支持;
-     *
+     * 使授权注解起作用不如不想配置可以在pom文件中加入
+     * <dependency>
+     *<groupId>org.springframework.boot</groupId>
+     *<artifactId>spring-boot-starter-aop</artifactId>
+     *</dependency>
      * @param securityManager
      * @return
      */
@@ -121,21 +168,19 @@ public class ShiroConfig {
      * rememberMeCookie
      * @return
      */
-    @Bean
     public SimpleCookie rememberMeCookie(){
-        //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+        // 设置 cookie 名称，对应 login.html 页面的 <input type="checkbox" name="rememberMe"/>
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
         //如果httyOnly设置为true，则客户端不会暴露给客户端脚本代码，使用HttpOnly cookie有助于减少某些类型的跨站点脚本攻击；
         simpleCookie.setHttpOnly(true);
-        //记住我cookie生效时间,单位是秒
-        simpleCookie.setMaxAge(600);
+        //记住我cookie生效时间,单位是秒 这里设七天天
+        simpleCookie.setMaxAge(7*24*60*60);
         return simpleCookie;
     }
 
     /**
      * cookie管理器;
      */
-    @Bean
     public CookieRememberMeManager rememberMeManager() {
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         //rememberme cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位），通过以下代码可以获取
@@ -145,6 +190,96 @@ public class ShiroConfig {
         cookieRememberMeManager.setCipherKey(Base64.decode(ShiroUtils.cipherKey));
         cookieRememberMeManager.setCookie(rememberMeCookie());
         return cookieRememberMeManager;
+    }
+
+    /**
+     * cacheManager 缓存 redis实现
+     * 使用的是shiro-redis开源插件
+     *
+     * @return
+     */
+    private RedisCacheManager cacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        if("single".equals(model)){
+            redisCacheManager.setRedisManager(redisManager());
+        }else{
+            redisCacheManager.setRedisManager(redisSentinelManager());
+        }
+        //不设置主体字段名 会导致注销登录有问题 User must has getter for field: id We need a field to identify this Cache Object in Redis.
+        redisCacheManager.setPrincipalIdFieldName("userName");
+        return redisCacheManager;
+    }
+
+    /**
+     * shiro 中配置 redis 缓存
+     *
+     * @return RedisManager 单机
+     */
+    private RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(host + ":" + port);
+        if (StringUtils.isNotBlank(password)){
+            redisManager.setPassword(password);
+        }
+        redisManager.setTimeout(timeout);
+        redisManager.setDatabase(database);
+        return redisManager;
+    }
+
+    private RedisSentinelManager redisSentinelManager(){
+        RedisSentinelManager redisSentinelManager = new RedisSentinelManager();
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxTotal(200);
+        jedisPoolConfig.setMaxIdle(25);
+        jedisPoolConfig.setMinIdle(0);
+        jedisPoolConfig.setMaxWaitMillis(10000);
+        jedisPoolConfig.setTestOnBorrow(false);
+        jedisPoolConfig.setTestOnReturn(false);
+        redisSentinelManager.setMasterName(master);
+        redisSentinelManager.setHost(nodes);
+        redisSentinelManager.setDatabase(database);
+        redisSentinelManager.setJedisPoolConfig(jedisPoolConfig);
+        return redisSentinelManager;
+    }
+
+    /**
+     * session manager
+     * @return
+     */
+    @Bean
+    public DefaultWebSessionManager sessionManager(){
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        //设置session过期时间为30分钟
+        sessionManager.setGlobalSessionTimeout(30 * 60 * 1000);
+        sessionManager.setSessionValidationSchedulerEnabled(true);
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
+        sessionManager.setSessionDAO(redisSessionDao());
+        return sessionManager;
+    }
+
+    /**
+     * RedisSessionDAO shiro sessionDao层的实现 通过redis
+     * 使用的是shiro-redis开源插件
+     * @return
+     */
+    @Bean
+    public RedisSessionDAO redisSessionDao(){
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        if("single".equals(model)){
+            redisSessionDAO.setRedisManager(redisManager());
+        }else{
+            redisSessionDAO.setRedisManager(redisSentinelManager());
+        }
+        return redisSessionDAO;
+    }
+
+    /**
+     * shiro 生命周期
+     * @return
+     */
+    @Bean
+    public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
+        return new LifecycleBeanPostProcessor();
     }
 
     /**
