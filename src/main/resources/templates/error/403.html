@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head::head('错误页面')">
+</head>
+<script>
+    $(document).ready(function () {
+        // Swal.fire({
+        //     type: 'error',
+        //     title: '对不起，您还没有权限访问此页面！',
+        //     confirmButtonText: '返回首页'
+        // }).then((result) => {
+        //     if (result.value){
+        //         window.location.href = "/index";
+        //     }
+        // });
+        let timerInterval
+        Swal.fire({
+            title: '对不起，您还没有权限访问此页面',
+            html: '将在 <strong></strong> 秒之后回到<b>首页</b>',
+            allowOutsideClick :false,
+            timer: 5000,
+            onBeforeOpen: () => {
+            Swal.showLoading()
+            timerInterval = setInterval(() => {
+                Swal.getContent().querySelector('strong').textContent = (Swal.getTimerLeft()/1000).toFixed(0)
+            }, 100)},
+                onClose: () => {
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                    window.location.href = "/index";
+                }
+            });
+    });
+</script>

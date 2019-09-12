@@ -309,7 +309,7 @@ public class ShiroConfig {
     public SimpleMappingExceptionResolver resolver() {
         SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
         Properties properties = new Properties();
-        properties.setProperty("org.apache.shiro.authz.UnauthorizedException", "user/403");
+        properties.setProperty("org.apache.shiro.authz.UnauthorizedException", "error/403");
         resolver.setExceptionMappings(properties);
         return resolver;
     }
