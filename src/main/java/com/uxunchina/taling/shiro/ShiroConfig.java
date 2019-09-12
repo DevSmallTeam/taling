@@ -36,6 +36,8 @@ import java.util.Properties;
 @Configuration
 public class ShiroConfig {
 
+    private final static String SENTINEL = "sentinel";
+
     @Value("${spring.redis.model}")
     private String model;
 
@@ -51,11 +53,23 @@ public class ShiroConfig {
     @Value("${spring.redis.sentinel.nodes}")
     private String nodes;
 
-    @Value("${spring.redis.password:}")
+    @Value("${spring.redis.password}")
     private String password;
 
     @Value("${spring.redis.timeout}")
     private int timeout;
+
+    @Value("${spring.redis.jedis.pool.min-idle}")
+    private int minIdle;
+
+    @Value("${spring.redis.jedis.pool.max-idle}")
+    private int maxIdle;
+
+    @Value("${spring.redis.jedis.pool.max-active}")
+    private int maxActive;
+
+    @Value("${spring.redis.jedis.pool.max-wait}")
+    private long maxWaitMillis;
 
     @Value("${spring.redis.database:0}")
     private int database;
@@ -200,10 +214,10 @@ public class ShiroConfig {
      */
     private RedisCacheManager cacheManager() {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
-        if("single".equals(model)){
-            redisCacheManager.setRedisManager(redisManager());
-        }else{
+        if(SENTINEL.equals(model)){
             redisCacheManager.setRedisManager(redisSentinelManager());
+        }else{
+            redisCacheManager.setRedisManager(redisManager());
         }
         //不设置主体字段名 会导致注销登录有问题 User must has getter for field: id We need a field to identify this Cache Object in Redis.
         redisCacheManager.setPrincipalIdFieldName("userName");
@@ -229,10 +243,10 @@ public class ShiroConfig {
     private RedisSentinelManager redisSentinelManager(){
         RedisSentinelManager redisSentinelManager = new RedisSentinelManager();
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxTotal(200);
-        jedisPoolConfig.setMaxIdle(25);
-        jedisPoolConfig.setMinIdle(0);
-        jedisPoolConfig.setMaxWaitMillis(10000);
+        jedisPoolConfig.setMaxTotal(maxActive);
+        jedisPoolConfig.setMaxIdle(maxIdle);
+        jedisPoolConfig.setMinIdle(minIdle);
+        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
         jedisPoolConfig.setTestOnBorrow(false);
         jedisPoolConfig.setTestOnReturn(false);
         redisSentinelManager.setMasterName(master);
@@ -265,10 +279,10 @@ public class ShiroConfig {
     @Bean
     public RedisSessionDAO redisSessionDao(){
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
-        if("single".equals(model)){
-            redisSessionDAO.setRedisManager(redisManager());
-        }else{
+        if(SENTINEL.equals(model)){
             redisSessionDAO.setRedisManager(redisSentinelManager());
+        }else{
+            redisSessionDAO.setRedisManager(redisManager());
         }
         return redisSessionDAO;
     }
