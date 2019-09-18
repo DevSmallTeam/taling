@@ -142,6 +142,10 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/vendor/**", "anon");
+        filterChainDefinitionMap.put("/layui/**", "anon");
+        filterChainDefinitionMap.put("/jq-module/**", "anon");
+        filterChainDefinitionMap.put("/assets/**", "anon");
+        filterChainDefinitionMap.put("/pages/**", "anon");
 
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/register", "anon");
@@ -183,7 +187,7 @@ public class ShiroConfig {
      * @return
      */
     public SimpleCookie rememberMeCookie(){
-        // 设置 cookie 名称，对应 login.html 页面的 <input type="checkbox" name="rememberMe"/>
+        // 设置 cookie 名称，对应 login1.html 页面的 <input type="checkbox" name="rememberMe"/>
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
         //如果httyOnly设置为true，则客户端不会暴露给客户端脚本代码，使用HttpOnly cookie有助于减少某些类型的跨站点脚本攻击；
         simpleCookie.setHttpOnly(true);
