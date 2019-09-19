@@ -520,7 +520,7 @@ layui.define(["jquery", "layer"], function (f) {
                 title: "修改密码",
                 area: ["360px", "287px"],
                 shade: 0,
-                content: n ? n : "page/tpl/tpl-password.html"
+                content: n ? n : "/user/modifyPassword"
             })
         }, logout: function () {
             var n = h(this).data("url");

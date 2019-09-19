@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/head::head('错误页面')">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/head::head('403')">
 </head>
+<link rel="stylesheet" th:href="@{/assets/css/error-page.css}"/>
+<body>
+
+<!-- 加载动画 -->
+<div class="page-loading">
+    <div class="ball-loader">
+        <span></span><span></span><span></span><span></span>
+    </div>
+</div>
+
+<!-- 正文开始 -->
+<div class="error-page">
+    <img class="error-page-img" th:src="@{/assets/images/ic_403.png}">
+    <div class="error-page-info">
+        <h1>403</h1>
+        <div class="error-page-info-desc">抱歉，你无权访问此页面</div>
+        <div>
+            <button th:ew-href="@{/index}" class="layui-btn">返回首页</button>
+        </div>
+    </div>
+</div>
+
+<!-- js部分 -->
 <script>
-    $(document).ready(function () {
-        // Swal.fire({
-        //     type: 'error',
-        //     title: '对不起，您还没有权限访问此页面！',
-        //     confirmButtonText: '返回首页'
-        // }).then((result) => {
-        //     if (result.value){
-        //         window.location.href = "/index";
-        //     }
-        // });
-        let timerInterval
-        Swal.fire({
-            title: '对不起，您还没有权限访问此页面',
-            html: '将在 <strong></strong> 秒之后回到<b>首页</b>',
-            allowOutsideClick :false,
-            timer: 5000,
-            onBeforeOpen: () => {
-            Swal.showLoading()
-            timerInterval = setInterval(() => {
-                Swal.getContent().querySelector('strong').textContent = (Swal.getTimerLeft()/1000).toFixed(0)
-            }, 100)},
-                onClose: () => {
-                    clearInterval(timerInterval)
-                }
-            }).then((result) => {
-                    if (result.dismiss === Swal.DismissReason.timer) {
-                    window.location.href = "/index";
-                }
-            });
+    layui.use(['admin'], function () {
+        var $ = layui.jquery;
+        var admin = layui.admin;
+
     });
 </script>
+</body>
+</html>

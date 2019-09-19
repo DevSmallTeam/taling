@@ -40,6 +40,11 @@ public class UserController extends BaseController {
         return this.userService.queryById(id);
     }
 
+    @GetMapping("modifyPassword")
+    public String modifyPassword(){
+        return "user/modifyPassword";
+    }
+
     /**
      * 修改用户密码
      * @return
@@ -47,7 +52,8 @@ public class UserController extends BaseController {
     @ResponseBody
     @PostMapping("modifyPassword")
     public Map<String, Object> modifyPassword(@RequestParam("password") String password,
-                                              @RequestParam("newPassword") String newPassword){
+                                              @RequestParam("newPassword") String newPassword,
+                                              @RequestParam("confirmPassword") String confirmPassword){
         Map<String,Object> dataMap = new HashMap<String,Object>();
         if(StringUtils.isBlank(password)){
             retcode = "0001";
@@ -63,11 +69,18 @@ public class UserController extends BaseController {
             dataMap.put("message",message);
             return dataMap;
         }
+        if(!newPassword.equals(confirmPassword)){
+            retcode = "0003";
+            message = "两次密码输入不一致";
+            dataMap.put("retcode",retcode);
+            dataMap.put("message",message);
+            return dataMap;
+        }
         //根据userName查询出用户信息
         User user = userService.queryByUserName(getUser().getUserName());
         String oldPassword = ShiroUtils.MD5(password,user.getSalt());
         if(!oldPassword.equals(user.getPassword())){
-            retcode = "0002";
+            retcode = "0004";
             message = "您输入的原密码不正确";
             dataMap.put("retcode",retcode);
             dataMap.put("message",message);

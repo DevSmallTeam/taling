@@ -135,16 +135,9 @@ public class ShiroConfig {
         //所以上面的url要苛刻，宽松的url要放在下面，尤其是"/**"要放到最下面，如果放前面的话其后的验证规则就没作用了。
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 配置不会被拦截的链接 顺序判断
-        filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/data/**", "anon");
-        filterChainDefinitionMap.put("/fonts/**", "anon");
-        filterChainDefinitionMap.put("/icons-reference/**", "anon");
-        filterChainDefinitionMap.put("/img/**", "anon");
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/vendor/**", "anon");
-        filterChainDefinitionMap.put("/layui/**", "anon");
         filterChainDefinitionMap.put("/jq-module/**", "anon");
         filterChainDefinitionMap.put("/assets/**", "anon");
+        filterChainDefinitionMap.put("/json/**", "anon");
         filterChainDefinitionMap.put("/pages/**", "anon");
 
         filterChainDefinitionMap.put("/login", "anon");
