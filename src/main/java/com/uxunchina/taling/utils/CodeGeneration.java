@@ -1,10 +1,7 @@
 package com.uxunchina.taling.utils;
 
 import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
-import com.baomidou.mybatisplus.generator.config.PackageConfig;
-import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
@@ -51,6 +48,7 @@ public class CodeGeneration {
         strategy.setTablePrefix(new String[]{});//此处可以修改您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);//表名生成策略
         strategy.setInclude(new String[]{"sys_menu"});//需要生成的表
+        strategy.setEntityLombokModel(true);//是否使用lombook
 
         strategy.setSuperServiceClass(null);
         strategy.setSuperServiceImplClass(null);
@@ -65,9 +63,19 @@ public class CodeGeneration {
         pc.setService("service");
         pc.setServiceImpl("service.impl");
         pc.setMapper("mapper");
-//        pc.setEntity("entity");
+        pc.setEntity("entity");
         pc.setXml("xml");
+
+        //配置不自动生成entity
+        TemplateConfig templateConfig = new TemplateConfig();
+        templateConfig.setEntity(null);
+        mpg.setTemplate(templateConfig);
+        //end
+
+
         mpg.setPackageInfo(pc);
+
+
 
         //执行生成
         mpg.execute();
