@@ -87,16 +87,6 @@
         </dependency>
         <!--end-->
 
-<!--        &lt;!&ndash;热部署依赖&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-devtools</artifactId>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
-
-        <!--end-->
-
-
         <!--shiro权限管理包-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -137,13 +127,28 @@
         </dependency>
         <!--end-->
 
-        <!--mybatis依赖-->
+        <!-- mybatisplus集成 -->
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.0.1</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatisplus-spring-boot-starter</artifactId>
+            <version>1.0.5</version>
         </dependency>
-        <!--end-->
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+        <version>2.1.8</version>
+        </dependency>
+
+        <!-- mybatisplus 代码生成器 -->
+        <!-- 模板引擎 -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <!-- end -->
+
         <!-- 分页插件 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>

@@ -1,8 +1,9 @@
 package com.uxunchina.taling.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +17,10 @@ import java.io.Serializable;
  * @date 2019-09-01 12:03
  * 权限表
  */
-@Getter
-@Setter
+@TableName("sys_permission")
+@Data
 @Entity
-@Table(name = "syspermission")
+@Table(name = "sys_permission")
 public class SysPermission implements Serializable {
 
     private static final long serialVersionUID = -1783693073790534959L;
@@ -27,8 +28,8 @@ public class SysPermission implements Serializable {
      * 主键ID
      */
     @Id
-    @GenericGenerator(name="generator",strategy = "native")
     @GeneratedValue
+    @TableId(type = IdType.AUTO)
     private Integer permissionId;
 
     /**

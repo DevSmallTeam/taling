@@ -13,24 +13,6 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
-  #热部署配置
-  devtools:
-    add-properties: true
-    #重启范围
-    restart:
-      additional-paths: src/main/java
-
-  # thymeleaf模板配置
-  thymeleaf:
-    cache: false
-    mode: HTML5
-    check-template: true
-    servlet:
-      content-type: text/html
-    encoding: UTF-8
-    suffix: .html
-    prefix: classpath:/templates/
-
   redis:
     #redis模式选择 single 为单机模式 sentinel 为主从模式
     model: single
@@ -61,16 +43,3 @@ spring:
       master: redis_sentinel
       nodes: 127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381
 
-#配置mybatis的 mapper路径
-mybatis:
-  mapper-locations: classpath:/mapping/*.xml
-  #开启驼峰映射
-  configuration:
-    map-underscore-to-camel-case: true
-
-#pagehelper分页
-pagehelper:
-  helper-dialect: mysql
-  params: countSql
-  reasonable: true
-  support-methods-arguments: true

@@ -29,16 +29,6 @@ public class UserController extends BaseController {
     @Resource
     private UserService userService;
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("selectOne")
-    public User selectOne(Integer id) {
-        return this.userService.queryById(id);
-    }
 
     @GetMapping("modifyPassword")
     public String modifyPassword(){
@@ -88,12 +78,7 @@ public class UserController extends BaseController {
         }
         user.setSalt(ShiroUtils.getSalt());
         user.setPassword(ShiroUtils.MD5(newPassword,user.getSalt()));
-        User newUser = userService.update(user);
-        if(newUser == null){
-            dataMap.put("retcode",retcode);
-            dataMap.put("message",message);
-            return dataMap;
-        }
+        userService.updateById(user);
         //修改密码成功之后将用户信息注销
         logOut();
         retcode = "0000";

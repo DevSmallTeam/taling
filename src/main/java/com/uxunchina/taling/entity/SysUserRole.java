@@ -1,8 +1,9 @@
 package com.uxunchina.taling.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,10 +16,10 @@ import java.io.Serializable;
  * @Package com.uxunchina.taling.entity
  * @date 2019/9/2 11:12
  */
-@Getter
-@Setter
+@TableName("sys_user_role")
+@Data
 @Entity
-@Table(name = "sysuserrole")
+@Table(name = "sys_user_role")
 public class SysUserRole implements Serializable {
 
     private static final long serialVersionUID = 7692496259620335405L;
@@ -27,8 +28,8 @@ public class SysUserRole implements Serializable {
      * 主键ID
      */
     @Id
-    @GenericGenerator(name="generator",strategy = "native")
-    @GeneratedValue(generator = "generator")
+    @GeneratedValue
+    @TableId(type = IdType.AUTO)
     private Integer id;
     /**
      * 用户ID

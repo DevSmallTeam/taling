@@ -1,9 +1,11 @@
 package com.uxunchina.taling.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 import com.uxunchina.taling.bean.UserRoleBean;
 import com.uxunchina.taling.bean.UserRolePermissionBean;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,10 +18,10 @@ import java.util.List;
  * @author chenfeng
  * @since 2019-08-31 16:35:04
  */
+@TableName("user")
+@Data
 @Entity
 @Table(name = "user")
-@Getter
-@Setter
 public class User implements Serializable {
 
     private static final long serialVersionUID = 9100517633904500429L;
@@ -29,6 +31,7 @@ public class User implements Serializable {
      */
     @Id
     @GeneratedValue
+    @TableId(type = IdType.AUTO)
     private Integer userId;
     /**
      *  用户名
@@ -60,11 +63,11 @@ public class User implements Serializable {
      */
     @Transient
     private List<UserRoleBean> userRoleBeanList;
+
     /**
      * 用户权限列表
      */
     @Transient
     private List<UserRolePermissionBean> userRolePermissionBeanList;
-
 
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uxunchina.taling.mapper.SysPermissionMapper">
 
-    <resultMap type="com.uxunchina.taling.entity.SysPermission" id="SyspermissionMap">
+    <resultMap type="com.uxunchina.taling.entity.SysPermission" id="BaseResultMap">
         <result property="permissionId" column="permission_id" jdbcType="INTEGER"/>
         <result property="available" column="available" jdbcType="BOOLEAN"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
@@ -14,106 +14,5 @@
         <result property="resourceType" column="resource_type" jdbcType="VARCHAR"/>
         <result property="url" column="url" jdbcType="VARCHAR"/>
     </resultMap>
-
-    <!--查询单个-->
-    <select id="queryById" resultMap="SyspermissionMap">
-        select
-          permission_id, available, description, level, parent_id, parent_ids, permission, permission_name, resource_type, url
-        from syspermission
-        where permission_id = #{permissionId}
-    </select>
-
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="SyspermissionMap">
-        select
-          permission_id, available, description, level, parent_id, parent_ids, permission, permission_name, resource_type, url
-        from syspermission
-        limit #{offset}, #{limit}
-    </select>
-
-    <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="SyspermissionMap">
-        select
-          permission_id, available, description, level, parent_id, parent_ids, permission, permission_name, resource_type, url
-        from syspermission
-        <where>
-            <if test="permissionId != null">
-                and permission_id = #{permissionId}
-            </if>
-            <if test="available != null">
-                and available = #{available}
-            </if>
-            <if test="description != null and description != ''">
-                and description = #{description}
-            </if>
-            <if test="level != null">
-                and level = #{level}
-            </if>
-            <if test="parentId != null">
-                and parent_id = #{parentId}
-            </if>
-            <if test="parentIds != null and parentIds != ''">
-                and parent_ids = #{parentIds}
-            </if>
-            <if test="permission != null and permission != ''">
-                and permission = #{permission}
-            </if>
-            <if test="permissionName != null and permissionName != ''">
-                and permission_name = #{permissionName}
-            </if>
-            <if test="resourceType != null and resourceType != ''">
-                and resource_type = #{resourceType}
-            </if>
-            <if test="url != null and url != ''">
-                and url = #{url}
-            </if>
-        </where>
-    </select>
-
-    <!--新增所有列-->
-    <insert id="insert" keyProperty="permissionId" useGeneratedKeys="true">
-        insert into syspermission(available, description, level, parent_id, parent_ids, permission, permission_name, resource_type, url)
-        values (#{available}, #{description}, #{level}, #{parentId}, #{parentIds}, #{permission}, #{permissionName}, #{resourceType}, #{url})
-    </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update syspermission
-        <set>
-            <if test="available != null">
-                available = #{available},
-            </if>
-            <if test="description != null and description != ''">
-                description = #{description},
-            </if>
-            <if test="level != null">
-                level = #{level},
-            </if>
-            <if test="parentId != null">
-                parent_id = #{parentId},
-            </if>
-            <if test="parentIds != null and parentIds != ''">
-                parent_ids = #{parentIds},
-            </if>
-            <if test="permission != null and permission != ''">
-                permission = #{permission},
-            </if>
-            <if test="permissionName != null and permissionName != ''">
-                permission_name = #{permissionName},
-            </if>
-            <if test="resourceType != null and resourceType != ''">
-                resource_type = #{resourceType},
-            </if>
-            <if test="url != null and url != ''">
-                url = #{url},
-            </if>
-        </set>
-        where permission_id = #{permissionId}
-    </update>
-
-    <!--通过主键删除-->
-    <delete id="deleteById">
-        delete from syspermission where permission_id = #{permissionId}
-    </delete>
 
 </mapper>

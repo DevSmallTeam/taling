@@ -1,13 +1,14 @@
 package com.uxunchina.taling.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -21,18 +22,18 @@ import java.time.LocalDate;
  * @date 2019/9/2 11:01
  * 角色表
  */
-@Getter
-@Setter
+@TableName("sys_role")
+@Data
 @Entity
-@Table(name = "sysrole")
+@Table(name = "sys_role")
 public class SysRole implements Serializable {
     private static final long serialVersionUID = 8014787112682805259L;
     /**
      * 角色ID
      */
     @Id
-    @GenericGenerator(name="generator",strategy = "native")
-    @GeneratedValue(generator = "generator")
+    @GeneratedValue
+    @TableId(type = IdType.AUTO)
     private Integer roleId;
 
     /**
