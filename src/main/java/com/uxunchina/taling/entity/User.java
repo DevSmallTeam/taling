@@ -1,5 +1,6 @@
 package com.uxunchina.taling.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
@@ -62,12 +63,14 @@ public class User implements Serializable {
      * 用户角色列表
      */
     @Transient
+    @TableField(exist = false)
     private List<UserRoleBean> userRoleBeanList;
 
     /**
      * 用户权限列表
      */
     @Transient
+    @TableField(exist = false)
     private List<UserRolePermissionBean> userRolePermissionBeanList;
 
 }

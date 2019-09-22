@@ -57,19 +57,19 @@ public class LoginController extends BaseController{
             model.addAttribute("user",user);
             return "index";
         }catch (UnknownAccountException e){
-            message = "账号不存在";
+            msg = "账号不存在";
             log.error("账号不存在！{}",e.getMessage());
         }catch (DisabledAccountException e) {
-            message = "账户已被停用";
+            msg = "账户已被停用";
             log.error("账户已被停用！{}",e.getMessage());
         } catch (IncorrectCredentialsException e) {
-            message = "密码错误";
+            msg = "密码错误";
             log.error("密码错误！{}",e.getMessage());
         } catch (Throwable e) {
-            message = "未知错误";
+            msg = "未知错误";
             log.error("未知错误！{},{}",e.getMessage(),e);
         }
-        model.addAttribute("message",message);
+        model.addAttribute("message",msg);
         return "user/login";
     }
    @GetMapping("logout")

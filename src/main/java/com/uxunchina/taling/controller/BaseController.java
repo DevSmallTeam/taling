@@ -1,5 +1,6 @@
 package com.uxunchina.taling.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.uxunchina.taling.entity.User;
 import org.apache.shiro.SecurityUtils;
 
@@ -10,9 +11,31 @@ import org.apache.shiro.SecurityUtils;
  */
 public abstract class BaseController {
 
-    protected String retcode = "";// 消息的响应码
-    protected String message = "";// 需返回的消息内容
-    protected String goHref = ""; //跳转链接地址
+    protected Integer code = 0;// 消息的响应码
+    protected String msg = "";// 需返回的消息内容
+
+    /**
+     * <p>
+     * 获取分页对象
+     * </p>
+     */
+    protected <T> Page<T> getPage(int pageNumber) {
+        return getPage(pageNumber, 15);
+    }
+
+    /**
+     * <p>
+     * 获取分页对象
+     * </p>
+     *
+     * @param pageNumber
+     * @param pageSize
+     *            每页显示数量
+     * @return
+     */
+    protected <T> Page<T> getPage(int pageNumber, int pageSize) {
+        return new Page<T>(pageNumber, pageSize);
+    }
 
     /**
      * 获取用户信息
