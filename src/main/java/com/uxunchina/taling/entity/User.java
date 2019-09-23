@@ -31,7 +31,7 @@ public class User implements Serializable {
      * 用户ID 主键
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
     private Integer userId;
     /**

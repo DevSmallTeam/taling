@@ -32,7 +32,7 @@ public class SysRole implements Serializable {
      * 角色ID
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
     private Integer roleId;
 
