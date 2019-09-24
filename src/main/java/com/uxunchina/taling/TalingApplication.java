@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.uxunchina.*.mapper")
+@MapperScan("com.uxunchina.*.mapper*")
 public class TalingApplication {
 
     public static void main(String[] args) {

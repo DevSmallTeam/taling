@@ -1,6 +1,7 @@
 package com.uxunchina.taling.configure;
 
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019/9/21 20:59
  */
 @Configuration
+@MapperScan("com.uxunchina.*.mapper*")
 public class MybatisPlusConfigure {
 
     /**
