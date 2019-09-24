@@ -1,12 +1,8 @@
 package com.uxunchina.taling.configure;
 
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.plugins.parser.ISqlParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author chenfeng
@@ -17,7 +13,7 @@ import java.util.List;
 public class MybatisPlusConfigure {
 
     /**
-     * 分页插件
+     * 分页插件 解决 返回总条数为0的情况
      */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
