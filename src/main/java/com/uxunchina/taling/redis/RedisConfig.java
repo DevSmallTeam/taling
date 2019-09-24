@@ -76,52 +76,6 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Value("${spring.redis.database:0}")
     private int database;
 
-//    @Bean
-//    public JedisPool redisPoolFactory() {
-//        if(SENTINEL.equals(model)){
-//            return null;
-//        }else{
-//            JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-//            jedisPoolConfig.setMaxIdle(maxIdle);
-//            jedisPoolConfig.setMaxTotal(maxActive);
-//            jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-//            log.info("使用单节点方式初始化redis链接成功");
-//            if (StringUtils.isNotBlank(password)) {
-//                return new JedisPool(jedisPoolConfig, host, port, timeout, password, database);
-//            } else {
-//                return new JedisPool(jedisPoolConfig, host, port, timeout, null, database);
-//            }
-//        }
-//    }
-//
-//    @Bean
-//    public JedisSentinelPool jedisSentinelPool(){
-//        JedisSentinelPool jedisSentinelPool = null;
-//        if(!SENTINEL.equals(model)){
-//            return jedisSentinelPool;
-//        }else{
-//            Set<String> nodeSet = new HashSet<>();
-//            String[] nodeArray = nodes.split(",");
-//            for(String node : nodeArray) {
-//                nodeSet.add(node);
-//            }
-//            GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
-//            poolConfig.setMaxTotal(maxActive);
-//            poolConfig.setMaxIdle(maxIdle);
-//            poolConfig.setMinIdle(minIdle);
-//            poolConfig.setMaxWaitMillis(maxWaitMillis);
-//            poolConfig.setTestOnBorrow(false);
-//            poolConfig.setTestOnReturn(false);
-//            if(StringUtils.isNotBlank(password)){
-//                jedisSentinelPool = new JedisSentinelPool(master,nodeSet,poolConfig,2000,password,database);
-//            }else{
-//                jedisSentinelPool = new JedisSentinelPool(master,nodeSet,poolConfig,2000,null,database);
-//            }
-//            log.info("使用高可用方式初始化redis链接成功！master={},nodes={}",master,nodes);
-//        }
-//        return jedisSentinelPool;
-//    }
-
     @Bean
     public JedisPoolConfig jedisPoolConfig(){
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
@@ -182,7 +136,9 @@ public class RedisConfig extends CachingConfigurerSupport {
         return template;
     }
 
-    //缓存管理器
+    /**
+     * 缓存管理器
+     */
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager

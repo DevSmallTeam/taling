@@ -4,7 +4,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.util.ByteSource;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -19,17 +18,17 @@ public class ShiroUtils {
     /**
      * md5加密方式
      */
-    public final static String hashAlgorithmName = "MD5";
+    public final static String HASH_ALGORITHM_NAME = "MD5";
 
     /**
      * 加密迭代次数
      */
-    public final static int hashIterations = 2;
+    public final static int HASH_ITERATIONS = 2;
 
     /**
      * rememberMe cookie加密秘钥
      */
-    public final static String cipherKey= "EKCW3ATrgUk9naKebkOU7A==";
+    public final static String CIPHER_KEY = "EKCW3ATrgUk9naKebkOU7A==";
 
     /**
      * 基于MD5的加密算法
@@ -38,7 +37,7 @@ public class ShiroUtils {
      * @return
      */
     public static String MD5(String password, String salt) {
-        return new SimpleHash(hashAlgorithmName, password, salt, hashIterations).toHex();
+        return new SimpleHash(HASH_ALGORITHM_NAME, password, salt, HASH_ITERATIONS).toHex();
     }
 
     /**

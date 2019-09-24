@@ -19,10 +19,10 @@ public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 根据用户名查询用户信息
-     * @param UserName
+     * @param userName
      * @return
      */
-    User queryByUserName(String UserName);
+    User queryByUserName(String userName);
 
 
     /**

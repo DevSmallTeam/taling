@@ -1,5 +1,6 @@
 package com.uxunchina.taling.shiro;
 
+import com.uxunchina.taling.bean.Content;
 import com.uxunchina.taling.bean.UserRoleBean;
 import com.uxunchina.taling.bean.UserRolePermissionBean;
 import com.uxunchina.taling.entity.User;
@@ -61,7 +62,7 @@ public class UserRealm extends AuthorizingRealm {
         User user = userService.queryByUserName(userName);
         if(user == null ){
             throw new UnknownAccountException();
-        }else if("0".equals(user.getState())){
+        }else if(Content.USER_LOCK.equals(user.getState())){
             throw new LockedAccountException();
         }else{
             log.info("获取的用户名是{},密码是{}",userName,user.getPassword());

@@ -20,11 +20,16 @@ public class CodeGeneration {
         gc.setOutputDir("/Users/chenfeng/forum/taling/src/main/java");
 
         gc.setFileOverride(true);
-        gc.setActiveRecord(true);//不需要ActiveRecord特性的请改为false
-        gc.setEnableCache(false);//XML二级缓存
-        gc.setBaseResultMap(true);//XML ResultMap
-        gc.setBaseColumnList(false);//XML columList
-        gc.setAuthor("chenfeng");//作者
+        //不需要ActiveRecord特性的请改为false
+        gc.setActiveRecord(true);
+        //XML二级缓存
+        gc.setEnableCache(false);
+        //XML ResultMap
+        gc.setBaseResultMap(true);
+        //XML columList
+        gc.setBaseColumnList(false);
+        //作者
+        gc.setAuthor("chenfeng");
 
         //自定义文件命名，注意%s 会自动填充表实体属性
         gc.setControllerName("%sController");
@@ -45,10 +50,14 @@ public class CodeGeneration {
 
         //策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setTablePrefix(new String[]{});//此处可以修改您的表前缀
-        strategy.setNaming(NamingStrategy.underline_to_camel);//表名生成策略
-        strategy.setInclude(new String[]{"sys_menu"});//需要生成的表
-        strategy.setEntityLombokModel(true);//是否使用lombook
+        //此处可以修改您的表前缀
+        strategy.setTablePrefix(new String[]{});
+        //表名生成策略
+        strategy.setNaming(NamingStrategy.underline_to_camel);
+        //需要生成的表
+        strategy.setInclude(new String[]{"sys_menu"});
+        //是否使用lombook
+        strategy.setEntityLombokModel(true);
 
         strategy.setSuperServiceClass(null);
         strategy.setSuperServiceImplClass(null);
@@ -71,12 +80,7 @@ public class CodeGeneration {
         templateConfig.setEntity(null);
         mpg.setTemplate(templateConfig);
         //end
-
-
         mpg.setPackageInfo(pc);
-
-
-
         //执行生成
         mpg.execute();
     }

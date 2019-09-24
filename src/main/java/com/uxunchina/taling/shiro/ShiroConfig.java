@@ -81,8 +81,8 @@ public class ShiroConfig {
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName(ShiroUtils.hashAlgorithmName);
-        hashedCredentialsMatcher.setHashIterations(ShiroUtils.hashIterations);
+        hashedCredentialsMatcher.setHashAlgorithmName(ShiroUtils.HASH_ALGORITHM_NAME);
+        hashedCredentialsMatcher.setHashIterations(ShiroUtils.HASH_ITERATIONS);
         return hashedCredentialsMatcher;
     }
 
@@ -198,7 +198,7 @@ public class ShiroConfig {
         //KeyGenerator keygen = KeyGenerator.getInstance("AES");
         //SecretKey deskey = keygen.generateKey();
         //System.out.println(Base64.encodeToString(deskey.getEncoded()));
-        cookieRememberMeManager.setCipherKey(Base64.decode(ShiroUtils.cipherKey));
+        cookieRememberMeManager.setCipherKey(Base64.decode(ShiroUtils.CIPHER_KEY));
         cookieRememberMeManager.setCookie(rememberMeCookie());
         return cookieRememberMeManager;
     }

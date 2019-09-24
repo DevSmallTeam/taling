@@ -11,8 +11,10 @@ import org.apache.shiro.SecurityUtils;
  */
 public abstract class BaseController {
 
-    protected Integer code = 0;// 消息的响应码
-    protected String msg = "";// 需返回的消息内容
+    // 消息的响应码
+    protected Integer code = 0;
+    // 需返回的消息内容
+    protected String msg = "";
 
     /**
      * <p>
