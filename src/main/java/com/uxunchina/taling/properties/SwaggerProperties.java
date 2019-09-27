@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Data
 @SpringBootConfiguration
-@PropertySource(value = "classpath:swagger.properties")
+@PropertySource(value = "classpath:swagger.properties",encoding = "utf-8")
 @ConfigurationProperties("swagger")
 public class SwaggerProperties {
     private String basePackage;
