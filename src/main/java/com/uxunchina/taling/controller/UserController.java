@@ -68,22 +68,22 @@ public class UserController extends BaseController {
                                               @RequestParam("confirmPassword") String confirmPassword){
         if(StringUtils.isBlank(password)){
             msg = "原密码不能为空";
-            return new DataResponse().failure(msg);
+            return new DataResponse().fail().message(msg);
         }
         if(StringUtils.isBlank(newPassword)){
             msg = "新密码不能为空";
-            return new DataResponse().failure(msg);
+            return new DataResponse().fail().message(msg);
         }
         if(!newPassword.equals(confirmPassword)){
             msg = "两次密码输入不一致";
-            return new DataResponse().failure(msg);
+            return new DataResponse().fail().message(msg);
         }
         //根据userName查询出用户信息
         User user = userService.queryByUserName(getUser().getUserName());
         String oldPassword = ShiroUtils.MD5(password,user.getSalt());
         if(!oldPassword.equals(user.getPassword())){
             msg = "您输入的原密码不正确";
-            return new DataResponse().failure(msg);
+            return new DataResponse().fail().message(msg);
         }
         //必须先设置加密盐
         user.setSalt(ShiroUtils.getSalt());
@@ -91,7 +91,7 @@ public class UserController extends BaseController {
         userService.updateById(user);
         //修改密码成功之后将用户信息注销
         logOut();
-        return new DataResponse().ok(msg);
+        return new DataResponse().success().message(msg);
     }
 
     /**
@@ -135,7 +135,7 @@ public class UserController extends BaseController {
             }
         }
         IPage<User> pageData = userService.page(page,ew);
-        return new DataResponse().okData(page.getTotal(),pageData.getRecords());
+        return new DataResponse().success().count(page.getTotal()).data(pageData.getRecords());
     }
 
     /**
@@ -160,11 +160,11 @@ public class UserController extends BaseController {
         //如果是修改用户状态
         if(Content.EDIT_TYPE_STATE.equals(type)){
             if(userId.equals(getUser().getUserId())){
-                return new DataResponse().failure("不允许操作当前登录用户");
+                return new DataResponse().fail().message("不允许操作当前登录用户");
             }
             user.setState(state);
             userService.updateById(user);
-            return new DataResponse().ok("修改用户状态成功");
+            return new DataResponse().success().message("修改用户状态成功");
         }
         //重置密码操作
         if(Content.EDIT_TYPE_RESET_PSW.equals(type)){
@@ -175,9 +175,9 @@ public class UserController extends BaseController {
             if(userId.equals(getUser().getUserId())){
                 //如果重置密码为当前用户，则退出登录
                 logOut();
-                return new DataResponse().response(0,"当前用户重置密码成功");
+                return new DataResponse().code(Content.RESTPSW_SUCCESS).message("当前用户重置密码成功");
             }
-            return new DataResponse().ok("重置用户密码成功");
+            return new DataResponse().success().message("重置用户密码成功");
         }
         return null;
     }

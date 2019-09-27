@@ -1,8 +1,10 @@
 package com.uxunchina.taling.bean;
 
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,56 +14,46 @@ import java.util.List;
  * @date 2019/9/21 21:37
  */
 @Data
-public class DataResponse<T> {
-    /**
-     * 返回码 200 成功
-     */
-    private Integer code;
-    /**
-     * 返回消息说明
-     */
-    private String msg;
-    /**
-     * 数据总条数
-     */
-    private Long count;
-    /**
-     * 数据对象
-     */
-    private List<T> data = new ArrayList<T>();
+public class DataResponse extends HashMap<String,Object> {
 
-    public DataResponse(){
-
+    public DataResponse count(Long count) {
+        this.put("count", count);
+        return this;
     }
 
-    public DataResponse(Integer code, String msg, Long count, List<T> data) {
-        this.code = code;
-        this.msg = msg;
-        this.count = count;
-        this.data = data;
+    public DataResponse code(int status) {
+        this.put("code", status);
+        return this;
     }
 
-    public DataResponse ok() {
-        return new DataResponse(200, "ok", 0L, null);
+    public DataResponse code(HttpStatus status) {
+        this.put("code", status.value());
+        return this;
     }
 
-    public DataResponse ok(String msg) {
-        return new DataResponse(200, msg, 0L, null);
+    public DataResponse message(String message) {
+        this.put("msg", message);
+        return this;
     }
 
-    public DataResponse okData(List<T> data) {
-        return new DataResponse(200, "ok",0L, data);
+    public DataResponse data(Object data) {
+        this.put("data", data);
+        return this;
     }
 
-    public DataResponse okData(Long count, List<T> data) {
-        return new DataResponse(200, "ok",count, data);
+    public DataResponse success() {
+        this.code(HttpStatus.OK);
+        return this;
     }
 
-    public DataResponse failure(String msg) {
-        return new DataResponse(500, msg, 0L,null);
+    public DataResponse fail() {
+        this.code(HttpStatus.INTERNAL_SERVER_ERROR);
+        return this;
     }
 
-    public DataResponse response(Integer code,String msg) {
-        return new DataResponse(code, msg, 0L,null);
+    @Override
+    public DataResponse put(String key, Object value) {
+        super.put(key, value);
+        return this;
     }
 }
