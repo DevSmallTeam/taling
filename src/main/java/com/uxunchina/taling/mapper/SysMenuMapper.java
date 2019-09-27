@@ -1,7 +1,7 @@
 package com.uxunchina.taling.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.uxunchina.taling.entity.SysMenu;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
  * <p>

@@ -1,7 +1,8 @@
 package com.uxunchina.taling.controller;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.uxunchina.taling.bean.Content;
 import com.uxunchina.taling.bean.DataResponse;
 import com.uxunchina.taling.entity.SysRole;
@@ -9,6 +10,10 @@ import com.uxunchina.taling.entity.User;
 import com.uxunchina.taling.service.SysRoleService;
 import com.uxunchina.taling.service.UserService;
 import com.uxunchina.taling.utils.ShiroUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +28,7 @@ import java.util.List;
  * @author chenfeng
  * @since 2019-08-31 16:35:04
  */
+@Api(tags = "用户操作接口")
 @Controller
 @RequestMapping("user")
 public class UserController extends BaseController {
@@ -44,6 +50,7 @@ public class UserController extends BaseController {
      * 进入修改密码页面
      * @return
      */
+    @ApiOperation("进入修改密码页面")
     @GetMapping("modifyPassword")
     public String modifyPassword(){
         return "user/modifyPassword";
@@ -53,6 +60,7 @@ public class UserController extends BaseController {
      * 修改用户密码
      * @return
      */
+    @ApiOperation("修改用户密码")
     @ResponseBody
     @PostMapping("modifyPassword")
     public DataResponse modifyPassword(@RequestParam("password") String password,
@@ -90,10 +98,10 @@ public class UserController extends BaseController {
      * 进入用户管理页面
      * @return
      */
+    @ApiOperation(value = "进入用户列表页面")
     @GetMapping("userList")
     public String userList(Model model){
-        EntityWrapper<SysRole> ew = new EntityWrapper<>();
-        List<SysRole> sysRoleList = sysRoleService.selectList(ew);
+        List<SysRole> sysRoleList = sysRoleService.list();
         model.addAttribute("sysRoleList",sysRoleList);
         return "system/user";
     }
@@ -104,13 +112,20 @@ public class UserController extends BaseController {
      * @param pageSize
      * @return
      */
+    @ApiOperation(value = "分页查询用户信息")
     @PostMapping("userList")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNumber",value = "当前页 ",required = true),
+            @ApiImplicitParam(name = "pageSize",value = "每页总页数",defaultValue = "10"),
+            @ApiImplicitParam(name = "userName",value = "用户名"),
+            @ApiImplicitParam(name = "nickName",value = "用户昵称"),
+    })
     @ResponseBody
     public DataResponse userList(@RequestParam Integer pageNumber,
                                  @RequestParam(defaultValue = "10") Integer pageSize,
                                  User user){
         Page<User> page = getPage(pageNumber, pageSize);
-        EntityWrapper<User> ew = new EntityWrapper<User>();
+        QueryWrapper<User>  ew = new QueryWrapper<User>();
         if(user != null){
             if(StringUtils.isNotBlank(user.getUserName())){
                 ew.like("user_name",user.getUserName());
@@ -119,22 +134,29 @@ public class UserController extends BaseController {
                 ew.like("nick_name",user.getNickName());
             }
         }
-        Page<User> pageData = userService.selectPage(page,ew);
+        IPage<User> pageData = userService.page(page,ew);
         return new DataResponse().okData(page.getTotal(),pageData.getRecords());
     }
 
     /**
-     * 修改用户状态
+     * 修改用户信息
+     * @param type
      * @param userId
      * @param state
      * @return
      */
+    @ApiOperation(value = "修改用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type",value = "操作类型 "+Content.EDIT_TYPE_STATE+"：修改用户状态，"+Content.EDIT_TYPE_RESET_PSW+"：重置用户密码",required = true),
+            @ApiImplicitParam(name = "userId",value = "用户ID",required = true),
+            @ApiImplicitParam(name = "state",value = "用户状态 0：锁定 1：正常")
+    })
     @ResponseBody
     @PostMapping("editUser")
-    public DataResponse editUser(@RequestParam(value = "type")String type,
+    public DataResponse editUser(@RequestParam(value = "type") String type,
                                  @RequestParam(value = "userId") Integer userId,
                                  @RequestParam(value = "state",required = false) String state){
-        User user = userService.selectById(userId);
+        User user = userService.getById(userId);
         //如果是修改用户状态
         if(Content.EDIT_TYPE_STATE.equals(type)){
             if(userId.equals(getUser().getUserId())){

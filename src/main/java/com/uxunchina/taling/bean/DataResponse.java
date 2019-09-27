@@ -24,7 +24,7 @@ public class DataResponse<T> {
     /**
      * 数据总条数
      */
-    private Integer count;
+    private Long count;
     /**
      * 数据对象
      */
@@ -34,7 +34,7 @@ public class DataResponse<T> {
 
     }
 
-    public DataResponse(Integer code, String msg, Integer count, List<T> data) {
+    public DataResponse(Integer code, String msg, Long count, List<T> data) {
         this.code = code;
         this.msg = msg;
         this.count = count;
@@ -42,26 +42,26 @@ public class DataResponse<T> {
     }
 
     public DataResponse ok() {
-        return new DataResponse(200, "ok", 0, null);
+        return new DataResponse(200, "ok", 0L, null);
     }
 
     public DataResponse ok(String msg) {
-        return new DataResponse(200, msg, 0, null);
+        return new DataResponse(200, msg, 0L, null);
     }
 
     public DataResponse okData(List<T> data) {
-        return new DataResponse(200, "ok",0, data);
+        return new DataResponse(200, "ok",0L, data);
     }
 
-    public DataResponse okData(Integer count, List<T> data) {
+    public DataResponse okData(Long count, List<T> data) {
         return new DataResponse(200, "ok",count, data);
     }
 
     public DataResponse failure(String msg) {
-        return new DataResponse(500, msg, 0,null);
+        return new DataResponse(500, msg, 0L,null);
     }
 
     public DataResponse response(Integer code,String msg) {
-        return new DataResponse(code, msg, 0,null);
+        return new DataResponse(code, msg, 0L,null);
     }
 }

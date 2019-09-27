@@ -1,9 +1,9 @@
 package com.uxunchina.taling.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.uxunchina.taling.entity.SysRole;
 import com.uxunchina.taling.mapper.SysRoleMapper;
 import com.uxunchina.taling.service.SysRoleService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

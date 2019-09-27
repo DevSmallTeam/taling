@@ -1,11 +1,10 @@
 package com.uxunchina.taling.mapper;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.uxunchina.taling.bean.UserRoleBean;
 import com.uxunchina.taling.bean.UserRolePermissionBean;
 import com.uxunchina.taling.entity.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**

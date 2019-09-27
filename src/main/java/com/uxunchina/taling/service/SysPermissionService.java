@@ -1,6 +1,6 @@
 package com.uxunchina.taling.service;
 
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.uxunchina.taling.entity.SysPermission;
 
 import java.util.List;

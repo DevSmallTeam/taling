@@ -1,8 +1,9 @@
 package com.uxunchina.taling.utils;
 
+
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
 /**
@@ -14,9 +15,12 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 public class CodeGeneration {
 
     public static void main(String[] args){
+
         AutoGenerator mpg = new AutoGenerator();
+
         //全局配置
         GlobalConfig gc = new GlobalConfig();
+
         gc.setOutputDir("/Users/chenfeng/forum/taling/src/main/java");
 
         gc.setFileOverride(true);
@@ -30,6 +34,9 @@ public class CodeGeneration {
         gc.setBaseColumnList(false);
         //作者
         gc.setAuthor("chenfeng");
+        //设置 swagger2注解
+        gc.setSwagger2(true);
+
 
         //自定义文件命名，注意%s 会自动填充表实体属性
         gc.setControllerName("%sController");

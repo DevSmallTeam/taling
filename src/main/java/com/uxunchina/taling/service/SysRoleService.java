@@ -1,7 +1,7 @@
 package com.uxunchina.taling.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.uxunchina.taling.entity.SysRole;
-import com.baomidou.mybatisplus.service.IService;
 
 /**
  * <p>

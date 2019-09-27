@@ -1,6 +1,6 @@
 package com.uxunchina.taling.controller;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.uxunchina.taling.entity.User;
 import org.apache.shiro.SecurityUtils;
 

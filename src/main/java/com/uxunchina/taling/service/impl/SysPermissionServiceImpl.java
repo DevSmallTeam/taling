@@ -1,13 +1,10 @@
 package com.uxunchina.taling.service.impl;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.uxunchina.taling.entity.SysPermission;
 import com.uxunchina.taling.mapper.SysPermissionMapper;
 import com.uxunchina.taling.service.SysPermissionService;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * (SysPermission)表服务实现类
