@@ -4,13 +4,6 @@ spring:
 server:
   port: 8080
 
-  #热部署配置
-  devtools:
-    add-properties: true
-    #重启范围
-    restart:
-      additional-paths: src/main/java
-
   # thymeleaf模板配置
   thymeleaf:
     cache: false

@@ -4,14 +4,18 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.uxunchina.taling.bean.Content;
 import com.uxunchina.taling.bean.DataResponse;
+import com.uxunchina.taling.entity.SysRole;
 import com.uxunchina.taling.entity.User;
+import com.uxunchina.taling.service.SysRoleService;
 import com.uxunchina.taling.service.UserService;
 import com.uxunchina.taling.utils.ShiroUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * (User)表控制层
@@ -29,6 +33,11 @@ public class UserController extends BaseController {
      */
     @Resource
     private UserService userService;
+    /**
+     * 系统角色 service
+     */
+    @Resource
+    private SysRoleService sysRoleService;
 
 
     /**
@@ -82,7 +91,10 @@ public class UserController extends BaseController {
      * @return
      */
     @GetMapping("userList")
-    public String userList(){
+    public String userList(Model model){
+        EntityWrapper<SysRole> ew = new EntityWrapper<>();
+        List<SysRole> sysRoleList = sysRoleService.selectList(ew);
+        model.addAttribute("sysRoleList",sysRoleList);
         return "system/user";
     }
 
