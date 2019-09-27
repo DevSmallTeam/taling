@@ -4,6 +4,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.uxunchina.taling.entity.User;
 import org.apache.shiro.SecurityUtils;
 
+import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 /**
  * @author chenfeng
  * @Package com.uxunchina.taling.controller
@@ -11,8 +17,18 @@ import org.apache.shiro.SecurityUtils;
  */
 public abstract class BaseController {
 
-    // 消息的响应码
-    protected Integer code = 0;
+    @Resource
+    protected HttpServletRequest request;
+
+    @Resource
+    protected HttpServletResponse response;
+
+    @Resource
+    protected HttpSession session;
+
+    @Resource
+    protected ServletContext application;
+
     // 需返回的消息内容
     protected String msg = "";
 

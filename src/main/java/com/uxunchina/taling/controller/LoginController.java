@@ -1,5 +1,8 @@
 package com.uxunchina.taling.controller;
 
+import com.google.code.kaptcha.Constants;
+import com.google.code.kaptcha.servlet.KaptchaExtend;
+import com.jhlabs.math.VLNoise;
 import com.uxunchina.taling.entity.User;
 import com.uxunchina.taling.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +15,13 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author chenfeng
@@ -44,13 +51,26 @@ public class LoginController extends BaseController{
     }
 
     @PostMapping("/login")
-    public String doLogin(@RequestParam( value = "userName",required = true)String userName,
-                          @RequestParam(value = "password",required = true)String passWord,
-                          @RequestParam(value = "rememberMe",required = true,defaultValue = "false")Boolean rememberMe,
+    public String doLogin(@RequestParam( value = "userName")String userName,
+                          @RequestParam(value = "password")String passWord,
+                          @RequestParam(value = "captcha")String captcha,
+                          @RequestParam(value = "rememberMe",defaultValue = "false")Boolean rememberMe,
                           Model model){
+        model.addAttribute("userName",userName);
+        // 验证图形验证码
+        KaptchaExtend kaptchaExtend = new KaptchaExtend();
+        String codeimg = kaptchaExtend.getGeneratedKey(request);
+        // 图形验证码为一次性的
+        session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+        // 验证
+        if (codeimg == null || !codeimg.equalsIgnoreCase(captcha)) {
+            msg = "验证码错误";
+            model.addAttribute("message",msg);
+            return "user/login";
+        }
+
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userName,passWord,rememberMe);
-        model.addAttribute("userName",userName);
         try {
             subject.login(usernamePasswordToken);
             User user = (User) subject.getPrincipal();
@@ -72,6 +92,17 @@ public class LoginController extends BaseController{
         model.addAttribute("message",msg);
         return "user/login";
     }
+
+    /**
+     * 验证码
+     */
+    @RequestMapping("/captcha")
+    @ResponseBody
+    public void captcha() throws ServletException, IOException {
+        KaptchaExtend kaptchaExtend = new KaptchaExtend();
+        kaptchaExtend.captcha(request, response);
+    }
+
    @GetMapping("logout")
    public String logout(){
         logOut();
