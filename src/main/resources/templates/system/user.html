@@ -195,7 +195,7 @@
             }, function (i) {
                 layer.close(i);
                 layer.load(2);
-                $.get('../../json/ok.json', {
+                $.post('/user/delUser', {
                     userId: userId
                 }, function (res) {
                     layer.closeAll('loading');

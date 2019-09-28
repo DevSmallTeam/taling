@@ -179,7 +179,24 @@ public class UserController extends BaseController {
             }
             return new DataResponse().success().message("重置用户密码成功");
         }
-        return null;
+        return new DataResponse().fail().message("服务器异常，请联系管理员");
     }
+
+    @ApiOperation(value = "删除用户")
+    @ApiImplicitParam(name = "userId",value = "用户ID")
+    @ResponseBody
+    @PostMapping("delUser")
+    public DataResponse delUser(@RequestParam(value = "userId")Integer userId){
+        if(userId.equals(getUser().getUserId())){
+            return new DataResponse().fail().message("不允许删除当前登录用户");
+        }
+        boolean result = userService.removeById(userId);
+        if(!result){
+            return new DataResponse().fail().message("删除用户失败");
+        }
+        return new DataResponse().success().message("删除用户成功");
+    }
+
+
 
 }
