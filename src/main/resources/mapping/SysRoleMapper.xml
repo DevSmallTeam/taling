@@ -11,4 +11,9 @@
         <result column="role" property="role" />
     </resultMap>
 
+    <!--根据角色名称获取角色信息-->
+    <select id="getRoleByName" resultMap="BaseResultMap">
+        SELECT * FROM SYS_ROLE WHERE ROLE = #{roleName}
+    </select>
+
 </mapper>

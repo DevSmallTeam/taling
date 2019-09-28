@@ -13,4 +13,6 @@ import com.uxunchina.taling.entity.SysRole;
  */
 public interface SysRoleService extends IService<SysRole> {
 
+    SysRole getRoleByName(String roleName);
+
 }

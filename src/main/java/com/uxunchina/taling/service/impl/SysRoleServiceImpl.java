@@ -6,6 +6,8 @@ import com.uxunchina.taling.mapper.SysRoleMapper;
 import com.uxunchina.taling.service.SysRoleService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  *  服务实现类
@@ -17,4 +19,11 @@ import org.springframework.stereotype.Service;
 @Service("sysRoleService")
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
+    @Resource
+    private SysRoleMapper sysRoleMapper;
+
+    @Override
+    public SysRole getRoleByName(String roleName) {
+        return sysRoleMapper.getRoleByName(roleName);
+    }
 }

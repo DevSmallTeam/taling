@@ -13,4 +13,10 @@ import com.uxunchina.taling.entity.SysRole;
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
+    /**
+     * 根据角色名查询角色信息
+     * @param roleName
+     * @return
+     */
+    SysRole getRoleByName(String roleName);
 }
