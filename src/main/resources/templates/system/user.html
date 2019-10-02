@@ -43,6 +43,7 @@
     </div>
 </div>
 
+
 <!-- 表格操作列 -->
 <script type="text/html" id="tableBarUser">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
@@ -55,7 +56,7 @@
            lay-text="正常|锁定" {{d.state==1?'checked':''}}/>
 </script>
 <!-- 表单弹窗 -->
-<script type="text/html" id="modelUser">
+<div style="display: none;" id="modelUser">
     <form id="modelUserForm" lay-filter="modelUserForm" class="layui-form model-form">
         <input name="userId" type="hidden"/>
         <div class="layui-form-item">
@@ -75,9 +76,10 @@
         <div class="layui-form-item">
             <label class="layui-form-label">角色</label>
             <div class="layui-input-block">
-                <select name="roleId" lay-verType="tips" lay-verify="required">
-                    <option value="">请选择角色</option>
-                    <option th:each="m : ${sysRoleList}" th:value="${m.roleId}" th:text = "${m.description}"></option>
+                <select name="roleIds"
+                        lay-verify="required"
+                        xm-select="user-add-role"
+                        xm-select-height="36px">
                 </select>
             </div>
         </div>
@@ -86,17 +88,50 @@
             <button class="layui-btn" lay-filter="modelSubmitUser" lay-submit>保存</button>
         </div>
     </form>
-</script>
+</div>
 
 <!-- js部分 -->
 <script>
-    layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
+    layui.use(['layer', 'form','formSelects', 'table', 'util', 'admin'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var form = layui.form;
         var table = layui.table;
         var util = layui.util;
         var admin = layui.admin;
+        var formSelects = layui.formSelects;
+
+
+        formSelects.render();
+        formSelects.btns('user-add-role', ['remove'], {show: ''});
+
+        formSelects.config('user-add-role', {
+            type: 'post',
+            searchUrl: '/user/role',
+            response: {
+                statusCode: 200
+            },
+            beforeSuccess: function (id, url, searchVal, result) {
+                var data = result.data;
+                var tranData = [];
+                for (var i = 0; i < data.length; i++) {
+                    tranData.push({
+                        name: data[i].role,
+                        value: data[i].roleId
+                    })
+                }
+                result.data = tranData;
+                return result;
+            },
+            error: function (id, url, searchVal, err) {
+                console.error(err);
+                layer.msg('获取角色列表失败');
+            }
+        });
+
+
+
+
 
         // 渲染表格
         var insTb = table.render({
@@ -159,19 +194,20 @@
 
         // 显示表单弹窗
         function showEditModel(mUser) {
+            mUser ? formSelects.value('user-add-role', mUser.roleIds.split(',')):formSelects.value('user-add-role', []);
             admin.open({
                 type: 1,
                 title: (mUser ? '修改' : '添加') + '用户',
                 content: $('#modelUser').html(),
                 success: function (layero, dIndex) {
                     $(layero).children('.layui-layer-content').css('overflow', 'visible');
-                    var url = mUser ? '../../json/ok.json' : '../../json/ok.json';
+                    var url = mUser ? '/user/updateUser' : '/user/addUser';
                     // 回显数据
                     form.val('modelUserForm', mUser);
                     // 表单提交事件
                     form.on('submit(modelSubmitUser)', function (data) {
                         layer.load(2);
-                        $.get(url, data.field, function (res) {
+                        $.post(url, data.field, function (res) {
                             layer.closeAll('loading');
                             if (res.code == 200) {
                                 layer.close(dIndex);

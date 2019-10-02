@@ -28,6 +28,10 @@ public class Content {
     /**
      * 用户状态 0锁定 1正常
      */
+    public static final String USER_VALID = "1";
+    /**
+     * 用户状态 0锁定 1正常
+     */
     public static final String USER_LOCK = "0";
 
 }

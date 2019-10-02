@@ -6,6 +6,7 @@ import com.uxunchina.taling.bean.UserRolePermissionBean;
 import com.uxunchina.taling.entity.User;
 import com.uxunchina.taling.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -78,6 +79,16 @@ public class UserRealm extends AuthorizingRealm {
                     user,user.getPassword(),ByteSource.Util.bytes(user.getSalt()),getName());
             return simpleAuthenticationInfo;
         }
+    }
+
+    /**
+     * 清除当前用户权限缓存
+     * 使用方法：在需要清除用户权限的地方注入 UserRealm,
+     * 然后调用其 clearCache方法。
+     */
+    public void clearCache() {
+        PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
+        super.clearCache(principals);
     }
 
 }

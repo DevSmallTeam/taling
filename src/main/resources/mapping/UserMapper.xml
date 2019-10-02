@@ -54,5 +54,16 @@
         inner join sys_permission sp on srp.permission_id = sp.permission_id
         where u.user_name=#{userName}
     </select>
+    <!-- 分页查询客户信息 -->
+    <select id="queryAllUser" resultType="com.uxunchina.taling.entity.User">
+        select u.user_id,u.user_name,u.nick_name,u.create_time,u.state,
+        group_concat(sr.role_id) role_ids,
+        group_concat(sr.role) roles
+        from user u
+        left join sys_user_role sur on u.user_id = sur.user_id
+        left join sys_role sr on sr.role_id = sur.role_id
+        ${ew.customSqlSegment}
+        group by u.user_id,u.user_name,u.nick_name,u.create_time,u.state
+    </select>
 
 </mapper>

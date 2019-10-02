@@ -60,6 +60,17 @@ public class User implements Serializable {
     private Date createTime;
 
     /**
+     * 角色id
+     */
+    @TableField(exist = false)
+    private String roleIds;
+    /**
+     * 所属角色
+     */
+    @TableField(exist = false)
+    private String roles;
+
+    /**
      * 用户角色列表
      */
     @Transient

@@ -1,9 +1,13 @@
 package com.uxunchina.taling.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.uxunchina.taling.bean.UserRoleBean;
 import com.uxunchina.taling.bean.UserRolePermissionBean;
 import com.uxunchina.taling.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +19,13 @@ import java.util.List;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    /**
+     * 分页查询所有用户
+     * @param page
+     * @param queryWrapper
+     * @return
+     */
+    IPage<User> queryAllUser(IPage<User> page, @Param(Constants.WRAPPER) QueryWrapper<User> queryWrapper);
 
     /**
      * 根据用户名查询用户信息

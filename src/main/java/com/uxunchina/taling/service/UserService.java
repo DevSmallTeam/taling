@@ -1,5 +1,7 @@
 package com.uxunchina.taling.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.uxunchina.taling.bean.UserRoleBean;
 import com.uxunchina.taling.bean.UserRolePermissionBean;
@@ -15,6 +17,31 @@ import java.util.List;
  */
 public interface UserService  extends IService<User> {
 
+
+    /**
+     * 分页查询所有用户信息
+     * @param page
+     * @param queryWrapper
+     * @return
+     */
+    IPage<User> queryAllUser(IPage<User> page, QueryWrapper<User> queryWrapper);
+
+    /**
+     * 创建用户
+     * @param user
+     */
+    void createUser(User user);
+
+    /**
+     * 删除用户
+     * @param userId
+     */
+    void deleteUser(Integer userId);
+
+    /**
+     * 修改用户信息
+     */
+    void updateUser(User user);
 
     /**
      * 根据用户名查询用户信息

@@ -101,8 +101,6 @@ public class UserController extends BaseController {
     @ApiOperation(value = "进入用户列表页面")
     @GetMapping("userList")
     public String userList(Model model){
-        List<SysRole> sysRoleList = sysRoleService.list();
-        model.addAttribute("sysRoleList",sysRoleList);
         return "system/user";
     }
 
@@ -134,7 +132,7 @@ public class UserController extends BaseController {
                 ew.like("nick_name",user.getNickName());
             }
         }
-        IPage<User> pageData = userService.page(page,ew);
+        IPage<User> pageData = userService.queryAllUser(page,ew);
         return new DataResponse().success().count(page.getTotal()).data(pageData.getRecords());
     }
 
@@ -190,13 +188,42 @@ public class UserController extends BaseController {
         if(userId.equals(getUser().getUserId())){
             return new DataResponse().fail().message("不允许删除当前登录用户");
         }
-        boolean result = userService.removeById(userId);
-        if(!result){
-            return new DataResponse().fail().message("删除用户失败");
-        }
+        userService.deleteUser(userId);
         return new DataResponse().success().message("删除用户成功");
     }
 
+    /**
+     * 查询所有的角色
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("role")
+    public DataResponse role(){
+        List<SysRole> sysRoleList = sysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getAvailable,true));
+        return new DataResponse().success().data(sysRoleList);
+    }
+
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("addUser")
+    public DataResponse addUser(User user){
+        this.userService.createUser(user);
+        return new DataResponse().success().message("新增用户成功");
+    }
+
+    @ResponseBody
+    @PostMapping("updateUser")
+    public DataResponse updateUser(User user){
+        if(user.getUserId() == null){
+            return new DataResponse().fail().message("用户ID不能为空");
+        }
+        this.userService.updateUser(user);
+        return new DataResponse().success().message("修改用户信息成功");
+    }
 
 
 }

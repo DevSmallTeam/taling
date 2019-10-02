@@ -1,5 +1,6 @@
 package com.uxunchina.taling.utils;
 
+import com.uxunchina.taling.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -61,6 +62,15 @@ public class ShiroUtils {
      */
     public static String getSalt(){
         return new SecureRandomNumberGenerator().nextBytes().toHex();
+    }
+
+    /**
+     * 获取当前登录用户
+     *
+     * @return User
+     */
+    public static User getCurrentUser() {
+        return (User) SecurityUtils.getSubject().getPrincipal();
     }
 
     public static void  main(String[] args){
