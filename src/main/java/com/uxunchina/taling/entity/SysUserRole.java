@@ -27,15 +27,15 @@ public class SysUserRole implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
     /**
      * 用户ID
      */
-    private Integer userId;
+    private Long userId;
     /**
      * 角色ID
      */
-    private Integer roleId;
+    private Long roleId;
 
 
 }

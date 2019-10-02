@@ -26,14 +26,14 @@ public class SysRolePermission implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
     /**
      * 角色ID
      */
-    private Integer roleId;
+    private Long roleId;
     /**
      * 权限ID
      */
-    private Integer permissionId;
+    private Long permissionId;
 
 }

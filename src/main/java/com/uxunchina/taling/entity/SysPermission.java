@@ -27,7 +27,7 @@ public class SysPermission implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
-    private Integer permissionId;
+    private Long permissionId;
 
     /**
      * 权限名称

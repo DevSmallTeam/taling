@@ -36,7 +36,7 @@ public interface UserService  extends IService<User> {
      * 删除用户
      * @param userId
      */
-    void deleteUser(Integer userId);
+    void deleteUser(Long userId);
 
     /**
      * 修改用户信息

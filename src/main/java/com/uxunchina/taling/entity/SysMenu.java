@@ -26,7 +26,7 @@ public class SysMenu implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
-    public Integer id;
+    public Long id;
     /**
      * 菜单名称
      */

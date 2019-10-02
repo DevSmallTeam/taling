@@ -152,7 +152,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @PostMapping("editUser")
     public DataResponse editUser(@RequestParam(value = "type") String type,
-                                 @RequestParam(value = "userId") Integer userId,
+                                 @RequestParam(value = "userId") Long userId,
                                  @RequestParam(value = "state",required = false) String state){
         User user = userService.getById(userId);
         //如果是修改用户状态
@@ -184,7 +184,7 @@ public class UserController extends BaseController {
     @ApiImplicitParam(name = "userId",value = "用户ID")
     @ResponseBody
     @PostMapping("delUser")
-    public DataResponse delUser(@RequestParam(value = "userId")Integer userId){
+    public DataResponse delUser(@RequestParam(value = "userId")Long userId){
         if(userId.equals(getUser().getUserId())){
             return new DataResponse().fail().message("不允许删除当前登录用户");
         }

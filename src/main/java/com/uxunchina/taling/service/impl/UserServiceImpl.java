@@ -71,7 +71,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
      * @param userId
      */
     @Override
-    public void deleteUser(Integer userId) {
+    public void deleteUser(Long userId) {
         userMapper.deleteById(userId);
         //删除用户角色
         sysUserRoleService.remove(new QueryWrapper<SysUserRole>().lambda().eq(SysUserRole::getUserId, userId));
@@ -133,7 +133,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         Arrays.stream(roles).forEach(roleId -> {
             SysUserRole usr = new SysUserRole();
             usr.setUserId(user.getUserId());
-            usr.setRoleId(Integer.parseInt(roleId));
+            usr.setRoleId(Long.parseLong(roleId));
             userRoles.add(usr);
         });
         sysUserRoleService.saveBatch(userRoles);

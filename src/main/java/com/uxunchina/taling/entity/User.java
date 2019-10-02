@@ -33,7 +33,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
-    private Integer userId;
+    private Long userId;
     /**
      *  用户名
      */

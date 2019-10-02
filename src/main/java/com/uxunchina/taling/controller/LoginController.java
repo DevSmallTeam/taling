@@ -2,9 +2,9 @@ package com.uxunchina.taling.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.servlet.KaptchaExtend;
-import com.jhlabs.math.VLNoise;
+import com.uxunchina.taling.entity.LoginLog;
 import com.uxunchina.taling.entity.User;
-import com.uxunchina.taling.service.UserService;
+import com.uxunchina.taling.service.LoginLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -12,15 +12,12 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -32,8 +29,9 @@ import java.io.IOException;
 @Controller
 public class LoginController extends BaseController{
 
-    @Autowired
-    public UserService userService;
+
+    @Resource
+    private LoginLogService loginLogService;
 
     @GetMapping("/index")
     public String index(Model model){
@@ -73,6 +71,12 @@ public class LoginController extends BaseController{
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userName,passWord,rememberMe);
         try {
             subject.login(usernamePasswordToken);
+            // 保存登录日志
+            LoginLog loginLog = new LoginLog();
+            loginLog.setUserName(userName);
+            loginLog.setSystemBrowserInfo();
+            this.loginLogService.saveLoginLog(loginLog);
+
             User user = (User) subject.getPrincipal();
             model.addAttribute("user",user);
             return "index";
