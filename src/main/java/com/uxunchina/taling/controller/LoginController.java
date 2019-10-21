@@ -79,7 +79,7 @@ public class LoginController extends BaseController{
 
             User user = (User) subject.getPrincipal();
             model.addAttribute("user",user);
-            return "index";
+            return "redirect:index";
         }catch (UnknownAccountException e){
             msg = "账号不存在";
             log.error("账号不存在！{}",e.getMessage());

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/common/head::head('登录日志')">
+</head>
+<body>
+
+<!-- 页面加载loading -->
+<div class="page-loading">
+    <div class="ball-loader">
+        <span></span><span></span><span></span><span></span>
+    </div>
+</div>
+
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-form toolbar">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label w-auto">账号：</label>
+                        <div class="layui-input-inline mr0">
+                            <input name="userName" class="layui-input" type="text" placeholder="请输入账号"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label w-auto">日期：</label>
+                        <div class="layui-input-inline mr0">
+                            <input name="dateRange" class="layui-input date-icon" type="text" placeholder="请选择日期范围"
+                                   autocomplete="off"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn icon-btn" lay-filter="formSubSearchLog" lay-submit>
+                            <i class="layui-icon">&#xe615;</i>搜索
+                        </button>
+                        <button id="btnExpLog" class="layui-btn icon-btn"><i class="layui-icon">&#xe67d;</i>导出</button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="layui-table" id="tableLog" lay-filter="tableLog"></table>
+        </div>
+    </div>
+</div>
+
+<!-- js部分 -->
+<script>
+    layui.use(['layer', 'form', 'table', 'util', 'laydate'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var table = layui.table;
+        var util = layui.util;
+        var laydate = layui.laydate;
+
+        // 渲染表格
+        var insTb = table.render({
+            elem: '#tableLog',
+            method: 'POST',
+            url: '/loginLog/loginRecode',
+            page: true,
+            cellMinWidth: 100,
+            request: {
+                pageName: 'pageNumber',//页码参数名称 默认:page
+                limitName: 'pageSize' //每页数据量参数名 默认: limit
+            },
+            response: {
+                statusCode: 200 //规定成功的状态码，默认：0
+            },
+            title: '登录日志',
+            cols:
+                [
+                    [
+                        {type: 'checkbox'},
+                        {field: 'userName', sort: true, title: '账号'},
+                        {field: 'ip', sort: true, title: 'IP'},
+                        {field: 'location', sort: true, title: '登录地点'},
+                        {
+                            field: 'loginTime', templet: function (d) {
+                                return util.toDateString(d.loginTime);
+                            }, title: '登录时间'
+                        },
+                        {field: 'system', sort: true, title: '操作系统'},
+                        {field: 'browser', sort: true, title: '浏览器'}
+                    ]
+                ]
+        });
+
+        // 时间范围
+        laydate.render({
+            elem: 'input[name="dateRange"]',
+            type: 'date',
+            range: true
+        });
+
+        // 搜索
+        form.on('submit(formSubSearchLog)', function (data) {
+            if (data.field.dateRange) {
+                var searchDate = data.field.dateRange.split(' - ');
+                data.field.loginTimeFrom = searchDate[0];
+                data.field.loginTimeTo = searchDate[1];
+            }
+            data.field.dateRange = undefined;
+            insTb.reload({where: data.field}, 'data');
+        });
+
+        // 导出excel
+        $('#btnExpLog').click(function () {
+            var checkRows = table.checkStatus('tableLog');
+            if (checkRows.data.length == 0) {
+                layer.msg('请选择要导出的数据', {icon: 2});
+            } else {
+                table.exportFile(insTb.config.id, checkRows.data, 'xls');
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>
