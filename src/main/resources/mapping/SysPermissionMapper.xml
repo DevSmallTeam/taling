@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.uxunchina.taling.mapper.SysPermissionMapper">
+<mapper namespace="com.uxunchina.taling.system.mapper.SysPermissionMapper">
 
-    <resultMap type="com.uxunchina.taling.entity.SysPermission" id="BaseResultMap">
+    <resultMap type="com.uxunchina.taling.system.entity.SysPermission" id="BaseResultMap">
         <result property="permissionId" column="permission_id" jdbcType="INTEGER"/>
         <result property="available" column="available" jdbcType="BOOLEAN"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>

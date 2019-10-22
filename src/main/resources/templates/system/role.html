@@ -15,24 +15,27 @@
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-card-body">
-            <div class="layui-form toolbar">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label w-auto">角色名：</label>
-                        <div class="layui-input-inline mr0">
-                            <input name="role" class="layui-input" type="text" placeholder="请输入角色名"/>
+            <div class="layui-form toolbar table-tool-mini">
+                <div class="layui-form toolbar">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label w-auto">角色名：</label>
+                            <div class="layui-input-inline mr0">
+                                <input name="role" class="layui-input" type="text" placeholder="请输入角色名"/>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn icon-btn" lay-filter="formSubSearchRole" lay-submit>
+                                <i class="layui-icon">&#xe615;</i>搜索
+                            </button>
+                            <button id="btnAddRole" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <button class="layui-btn icon-btn" lay-filter="formSubSearchRole" lay-submit>
-                            <i class="layui-icon">&#xe615;</i>搜索
-                        </button>
-                        <button id="btnAddRole" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
-                    </div>
                 </div>
+
+                <table class="layui-table" id="tableRole" lay-filter="tableRole"></table>
             </div>
 
-            <table class="layui-table" id="tableRole" lay-filter="tableRole"></table>
         </div>
     </div>
 </div>

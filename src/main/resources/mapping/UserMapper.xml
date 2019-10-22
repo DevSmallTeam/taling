@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.uxunchina.taling.mapper.UserMapper">
+<mapper namespace="com.uxunchina.taling.system.mapper.UserMapper">
 
-    <resultMap type="com.uxunchina.taling.entity.User" id="BaseResultMap">
+    <resultMap type="com.uxunchina.taling.system.entity.User" id="BaseResultMap">
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
@@ -12,7 +12,7 @@
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <resultMap type="com.uxunchina.taling.bean.UserRoleBean" id="userRoleBeanMap">
+    <resultMap type="com.uxunchina.taling.common.bean.UserRoleBean" id="userRoleBeanMap">
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
         <result property="role" column="role" jdbcType="VARCHAR"/>
         <result property="roleDescription" column="description" jdbcType="VARCHAR"/>
@@ -20,7 +20,7 @@
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <resultMap type="com.uxunchina.taling.bean.UserRolePermissionBean" id="userRolePermissionBeanMap">
+    <resultMap type="com.uxunchina.taling.common.bean.UserRolePermissionBean" id="userRolePermissionBeanMap">
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
@@ -55,7 +55,7 @@
         where u.user_name=#{userName}
     </select>
     <!-- 分页查询客户信息 -->
-    <select id="queryAllUser" resultType="com.uxunchina.taling.entity.User">
+    <select id="queryAllUser" resultType="com.uxunchina.taling.system.entity.User">
         select u.user_id,u.user_name,u.nick_name,u.create_time,u.state,
         group_concat(sr.role_id) role_ids,
         group_concat(sr.role) roles

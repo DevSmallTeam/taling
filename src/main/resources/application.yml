@@ -17,7 +17,7 @@ server:
 
 mybatis-plus:
   # 实体类扫描路径
-  type-aliases-package: com.uxunchina.taling.entity
+  type-aliases-package: com.uxunchina.taling.*.entity
   #xml扫描路径
   mapper-locations: classpath:/mapping/*.xml
   configuration:
