@@ -1,8 +1,8 @@
 package com.uxunchina.taling.common.shiro;
 
-import com.uxunchina.taling.common.bean.Content;
-import com.uxunchina.taling.common.bean.UserRoleBean;
-import com.uxunchina.taling.common.bean.UserRolePermissionBean;
+import com.uxunchina.taling.common.entity.Content;
+import com.uxunchina.taling.common.entity.UserRoleBean;
+import com.uxunchina.taling.common.entity.UserRolePermissionBean;
 import com.uxunchina.taling.system.entity.User;
 import com.uxunchina.taling.system.service.UserService;
 import lombok.extern.slf4j.Slf4j;

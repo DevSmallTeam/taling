@@ -4,7 +4,7 @@ package com.uxunchina.taling.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.uxunchina.taling.common.bean.DataResponse;
+import com.uxunchina.taling.common.entity.DataResponse;
 import com.uxunchina.taling.system.entity.LoginLog;
 import com.uxunchina.taling.system.service.LoginLogService;
 import io.swagger.annotations.Api;

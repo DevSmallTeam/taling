@@ -2,6 +2,7 @@ package com.uxunchina.taling.system.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.servlet.KaptchaExtend;
+import com.uxunchina.taling.common.controller.BaseController;
 import com.uxunchina.taling.system.entity.LoginLog;
 import com.uxunchina.taling.system.entity.User;
 import com.uxunchina.taling.system.service.LoginLogService;
@@ -29,7 +30,7 @@ import java.io.IOException;
 @Api("用户登录接口")
 @Slf4j
 @Controller
-public class LoginController extends BaseController{
+public class LoginController extends BaseController {
 
 
     @Resource

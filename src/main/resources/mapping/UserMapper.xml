@@ -12,7 +12,7 @@
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <resultMap type="com.uxunchina.taling.common.bean.UserRoleBean" id="userRoleBeanMap">
+    <resultMap type="com.uxunchina.taling.common.entity.UserRoleBean" id="userRoleBeanMap">
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
         <result property="role" column="role" jdbcType="VARCHAR"/>
         <result property="roleDescription" column="description" jdbcType="VARCHAR"/>
@@ -20,7 +20,7 @@
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <resultMap type="com.uxunchina.taling.common.bean.UserRolePermissionBean" id="userRolePermissionBeanMap">
+    <resultMap type="com.uxunchina.taling.common.entity.UserRolePermissionBean" id="userRolePermissionBeanMap">
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>

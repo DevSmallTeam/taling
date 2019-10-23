@@ -3,8 +3,8 @@ package com.uxunchina.taling.system.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.uxunchina.taling.common.bean.UserRoleBean;
-import com.uxunchina.taling.common.bean.UserRolePermissionBean;
+import com.uxunchina.taling.common.entity.UserRoleBean;
+import com.uxunchina.taling.common.entity.UserRolePermissionBean;
 import com.uxunchina.taling.system.entity.User;
 
 import java.util.List;

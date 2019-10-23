@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.uxunchina.taling.common.bean.UserRoleBean;
-import com.uxunchina.taling.common.bean.UserRolePermissionBean;
+import com.uxunchina.taling.common.entity.UserRoleBean;
+import com.uxunchina.taling.common.entity.UserRolePermissionBean;
 import lombok.Data;
 
 import javax.persistence.*;

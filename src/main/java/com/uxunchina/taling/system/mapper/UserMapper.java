@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.uxunchina.taling.common.bean.UserRoleBean;
-import com.uxunchina.taling.common.bean.UserRolePermissionBean;
+import com.uxunchina.taling.common.entity.UserRoleBean;
+import com.uxunchina.taling.common.entity.UserRolePermissionBean;
 import com.uxunchina.taling.system.entity.User;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,8 +1,8 @@
-package com.uxunchina.taling.common.bean;
+package com.uxunchina.taling.common.entity;
 
 /**
  * @author chenfeng
- * @Package com.uxunchina.taling.common.bean
+ * @Package com.uxunchina.taling.common.entity
  * @date 2019/9/22 11:01
  */
 public class Content {

@@ -1,4 +1,4 @@
-package com.uxunchina.taling.common.bean;
+package com.uxunchina.taling.common.entity;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 /**
  * @author chenfeng
- * @Package com.uxunchina.taling.common.bean
+ * @Package com.uxunchina.taling.common.entity
  * 数据返回对象封装
  * @date 2019/9/21 21:37
  */

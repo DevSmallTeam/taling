@@ -1,10 +1,10 @@
-package com.uxunchina.taling.common.bean;
+package com.uxunchina.taling.common.entity;
 
 import java.io.Serializable;
 
 /**
  * @author chenfeng
- * @Package com.uxunchina.taling.common.bean
+ * @Package com.uxunchina.taling.common.entity
  * @date 2019/9/3 17:27
  */
 public class UserRoleBean implements Serializable {

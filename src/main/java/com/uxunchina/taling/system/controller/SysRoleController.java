@@ -4,7 +4,8 @@ package com.uxunchina.taling.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.uxunchina.taling.common.bean.DataResponse;
+import com.uxunchina.taling.common.controller.BaseController;
+import com.uxunchina.taling.common.entity.DataResponse;
 import com.uxunchina.taling.system.entity.SysRole;
 import com.uxunchina.taling.system.service.SysRoleService;
 import io.swagger.annotations.Api;
@@ -30,7 +31,7 @@ import java.util.Date;
 @Api(tags = "角色操作接口")
 @Controller
 @RequestMapping("/sysRole")
-public class SysRoleController extends  BaseController {
+public class SysRoleController extends BaseController {
 
     @Resource
     private SysRoleService sysRoleService;

@@ -1,4 +1,4 @@
-package com.uxunchina.taling.system.controller;
+package com.uxunchina.taling.common.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.uxunchina.taling.system.entity.User;
