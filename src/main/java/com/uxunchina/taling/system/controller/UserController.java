@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ApiOperation("进入修改密码页面")
+    @RequiresPermissions("user:edit")
     @GetMapping("modifyPassword")
     public String modifyPassword(){
         return "user/modifyPassword";
@@ -63,6 +65,7 @@ public class UserController extends BaseController {
      */
     @ApiOperation("修改用户密码")
     @ResponseBody
+    @RequiresPermissions("user:edit")
     @PostMapping("modifyPassword")
     public DataResponse modifyPassword(@RequestParam("password") String password,
                                               @RequestParam("newPassword") String newPassword,

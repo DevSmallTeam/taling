@@ -1,5 +1,6 @@
 package com.uxunchina.taling.common.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.uxunchina.taling.common.utils.ShiroUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -266,6 +267,16 @@ public class ShiroConfig {
         sessionManager.setSessionIdUrlRewritingEnabled(false);
         sessionManager.setSessionDAO(redisSessionDao());
         return sessionManager;
+    }
+
+    /**
+     * 用于开启 Thymeleaf 中的 shiro 标签的使用
+     *
+     * @return ShiroDialect shiro 方言对象
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 
     /**
