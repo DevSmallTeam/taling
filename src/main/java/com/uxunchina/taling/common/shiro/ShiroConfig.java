@@ -20,13 +20,11 @@ import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import redis.clients.jedis.JedisPoolConfig;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * @author chenfeng
@@ -304,21 +302,4 @@ public class ShiroConfig {
         return new LifecycleBeanPostProcessor();
     }
 
-    /**
-     * 解决： 无权限页面不跳转 shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized") 无效
-     * shiro的源代码ShiroFilterFactoryBean.Java定义的filter必须满足filter instanceof AuthorizationFilter，
-     * 只有perms，roles，ssl，rest，port才是属于AuthorizationFilter，而anon，authcBasic，auchc，user是AuthenticationFilter，
-     * 所以unauthorizedUrl设置后页面不跳转 Shiro注解模式下，登录失败与没有权限都是通过抛出异常。
-     * 并且默认并没有去处理或者捕获这些异常。在SpringMVC下需要配置捕获相应异常来通知用户信息
-     *
-     * @return
-     */
-    @Bean
-    public SimpleMappingExceptionResolver resolver() {
-        SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
-        Properties properties = new Properties();
-        properties.setProperty("org.apache.shiro.authz.UnauthorizedException", "error/403");
-        resolver.setExceptionMappings(properties);
-        return resolver;
-    }
 }

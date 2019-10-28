@@ -47,7 +47,7 @@
 
 <!-- 表格操作列 -->
 <script type="text/html" id="tableBarUser" >
-    <a class="layui-btn layui-btn-primary layui-btn-xs" shiro:lacksPermission="user:view,user:edit,user:del" >无权限</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" shiro:lacksPermission="user:edit,user:del" >无权限</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" shiro:hasPermission="user:edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" shiro:hasPermission="user:del">删除</a>
     <a class="layui-btn layui-btn-xs" lay-event="reset" shiro:hasPermission="user:edit">重置密码</a>
@@ -57,7 +57,13 @@
 <script type="text/html" id="tableStateUser">
     <input type="checkbox" shiro:hasPermission="user:edit" lay-filter="ckStateUser" value="{{d.userId}}" lay-skin="switch"
            lay-text="正常|锁定" {{d.state==1?'checked':''}}/>
-    <span shiro:lacksPermission="user:edit">{{d.state==1?'正常':'锁定'}}</span>
+    <span shiro:lacksPermission="user:edit">
+        {{# if(d.state==1){ }}
+            <span style="color:#009688">正常</span>
+        {{# } else { }}
+            <span style="color:#999999">锁定</span>
+        {{# } }}
+    </span>
 </script>
 <!-- 表单弹窗 -->
 <div style="display: none;" id="modelUser">

@@ -4,14 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.uxunchina.taling.common.entity.UserRoleBean;
-import com.uxunchina.taling.common.entity.UserRolePermissionBean;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * (User)实体类
@@ -62,26 +59,15 @@ public class User implements Serializable {
     /**
      * 角色id
      */
+    @Transient
     @TableField(exist = false)
     private String roleIds;
     /**
      * 所属角色
      */
+    @Transient
     @TableField(exist = false)
     private String roles;
 
-    /**
-     * 用户角色列表
-     */
-    @Transient
-    @TableField(exist = false)
-    private List<UserRoleBean> userRoleBeanList;
-
-    /**
-     * 用户权限列表
-     */
-    @Transient
-    @TableField(exist = false)
-    private List<UserRolePermissionBean> userRolePermissionBeanList;
 
 }

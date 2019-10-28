@@ -34,14 +34,15 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         //取出用户信息
         User user = (User) principalCollection.getPrimaryPrincipal();
+        String userName = user.getUserName();
         //获取用户角色
-        List<UserRoleBean> userRoleBeanList = user.getUserRoleBeanList();
+        List<UserRoleBean> userRoleBeanList = userService.findSysRoleByUserName(userName);
         //将用户角色给shiro
         for(UserRoleBean userRole:userRoleBeanList){
             authorizationInfo.addRole(userRole.getRole());
         }
         //获取用户角色权限
-        List<UserRolePermissionBean> userRolePermissionBeanList = user.getUserRolePermissionBeanList();
+        List<UserRolePermissionBean> userRolePermissionBeanList = userService.findSysRolePermissionByUserName(userName);
         //将用户角色权限给shiro
         for(UserRolePermissionBean userRolePermission:userRolePermissionBeanList){
             authorizationInfo.addStringPermission(userRolePermission.getPermission());
@@ -67,14 +68,6 @@ public class UserRealm extends AuthorizingRealm {
             throw new LockedAccountException();
         }else{
             log.info("获取的用户名是{},密码是{}",userName,user.getPassword());
-            //查询用户角色
-            List<UserRoleBean> userRoleBeanList = userService.findSysRoleByUserName(userName);
-            //查询用户权限
-            List<UserRolePermissionBean> userRolePermissionBeanList = userService.findSysRolePermissionByUserName(userName);
-
-            user.setUserRoleBeanList(userRoleBeanList);
-            user.setUserRolePermissionBeanList(userRolePermissionBeanList);
-
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(
                     user,user.getPassword(),ByteSource.Util.bytes(user.getSalt()),getName());
             return simpleAuthenticationInfo;

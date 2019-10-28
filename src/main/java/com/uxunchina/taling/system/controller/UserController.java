@@ -53,7 +53,6 @@ public class UserController extends BaseController {
      * @return
      */
     @ApiOperation("进入修改密码页面")
-    @RequiresPermissions("user:edit")
     @GetMapping("modifyPassword")
     public String modifyPassword(){
         return "user/modifyPassword";
@@ -65,7 +64,6 @@ public class UserController extends BaseController {
      */
     @ApiOperation("修改用户密码")
     @ResponseBody
-    @RequiresPermissions("user:edit")
     @PostMapping("modifyPassword")
     public DataResponse modifyPassword(@RequestParam("password") String password,
                                               @RequestParam("newPassword") String newPassword,
@@ -103,6 +101,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ApiOperation(value = "进入用户列表页面")
+    @RequiresPermissions("user:view")
     @GetMapping("userList")
     public String userList(Model model){
         return "system/user";
@@ -122,6 +121,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "userName",value = "用户名"),
             @ApiImplicitParam(name = "nickName",value = "用户昵称"),
     })
+    @RequiresPermissions("user:view")
     @ResponseBody
     public DataResponse userList(@RequestParam Integer pageNumber,
                                  @RequestParam(defaultValue = "10") Integer pageSize,
@@ -154,6 +154,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(name = "state",value = "用户状态 0：锁定 1：正常")
     })
     @ResponseBody
+    @RequiresPermissions("user:edit")
     @PostMapping("editUser")
     public DataResponse editUser(@RequestParam(value = "type") String type,
                                  @RequestParam(value = "userId") Long userId,
@@ -186,6 +187,7 @@ public class UserController extends BaseController {
 
     @ApiOperation(value = "删除用户")
     @ApiImplicitParam(name = "userId",value = "用户ID")
+    @RequiresPermissions("user:del")
     @ResponseBody
     @PostMapping("delUser")
     public DataResponse delUser(@RequestParam(value = "userId")Long userId){
@@ -200,6 +202,7 @@ public class UserController extends BaseController {
      * 查询所有的角色
      * @return
      */
+    @RequiresPermissions("role:view")
     @ResponseBody
     @PostMapping("role")
     public DataResponse role(){
@@ -212,6 +215,7 @@ public class UserController extends BaseController {
      * @param user
      * @return
      */
+    @RequiresPermissions("user:add")
     @ResponseBody
     @PostMapping("addUser")
     public DataResponse addUser(User user){
@@ -219,6 +223,7 @@ public class UserController extends BaseController {
         return new DataResponse().success().message("新增用户成功");
     }
 
+    @RequiresPermissions("user:edit")
     @ResponseBody
     @PostMapping("updateUser")
     public DataResponse updateUser(User user){
