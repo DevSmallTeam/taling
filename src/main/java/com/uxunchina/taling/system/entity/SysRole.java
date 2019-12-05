@@ -51,4 +51,9 @@ public class SysRole implements Serializable {
      */
     private Date creatTime;
 
+    /**
+     * 角色对应权限id
+     */
+    private transient String permissionIds;
+
 }

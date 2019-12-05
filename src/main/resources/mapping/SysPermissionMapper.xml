@@ -2,17 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uxunchina.taling.system.mapper.SysPermissionMapper">
 
-    <resultMap type="com.uxunchina.taling.system.entity.SysPermission" id="BaseResultMap">
-        <result property="permissionId" column="permission_id" jdbcType="INTEGER"/>
-        <result property="available" column="available" jdbcType="BOOLEAN"/>
-        <result property="description" column="description" jdbcType="VARCHAR"/>
-        <result property="level" column="level" jdbcType="INTEGER"/>
-        <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
-        <result property="parentIds" column="parent_ids" jdbcType="VARCHAR"/>
-        <result property="permission" column="permission" jdbcType="VARCHAR"/>
-        <result property="permissionName" column="permission_name" jdbcType="VARCHAR"/>
-        <result property="resourceType" column="resource_type" jdbcType="VARCHAR"/>
-        <result property="url" column="url" jdbcType="VARCHAR"/>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.uxunchina.taling.system.entity.SysPermission">
+        <id column="permission_id" property="permissionId" />
+        <result column="parent_id" property="parentId" />
+        <result column="permission" property="permission" />
+        <result column="permission_name" property="permissionName" />
+        <result column="resource_type" property="resourceType" />
+        <result column="url" property="url" />
+        <result column="icon" property="icon" />
+        <result column="order_num" property="orderNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
     </resultMap>
 
 </mapper>

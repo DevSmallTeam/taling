@@ -21,7 +21,10 @@ import java.util.List;
 public class CodeGeneration {
 
     public static void main(String[] args){
+//        gencode();
+    }
 
+    public static void gencode(){
         AutoGenerator mpg = new AutoGenerator();
 
         //全局配置
@@ -68,7 +71,7 @@ public class CodeGeneration {
         //表名生成策略
         strategy.setNaming(NamingStrategy.underline_to_camel);
         //需要生成的表
-        strategy.setInclude(new String[]{"sys_menu"});
+        strategy.setInclude(new String[]{"sys_permission"});
         //是否使用lombook
         strategy.setEntityLombokModel(true);
 
@@ -80,7 +83,7 @@ public class CodeGeneration {
 
         //包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.uxunchina.taling");
+        pc.setParent("com.uxunchina.taling.system");
         pc.setController("controller");
         pc.setService("service");
         pc.setServiceImpl("service.impl");

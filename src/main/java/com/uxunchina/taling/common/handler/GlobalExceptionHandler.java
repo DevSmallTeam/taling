@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
             return new DataResponse().code(403).message("您还没有操作此项的权限，请联系管理员！");
         }
         else {
-            return new DataResponse().fail().message("服务器内部异常，请检查开发人员！");
+            return new DataResponse().fail().message(ex.getMessage()+"服务器内部异常，请检查开发人员！");
         }
     }
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author chenfeng
@@ -35,9 +36,9 @@ public class SysPermission implements Serializable {
     private String permissionName;
 
     /**
-     * 描述
+     * 图标
      */
-    private String description;
+    private String icon;
 
     /**
      * 资源类型 [menu|button]
@@ -58,20 +59,21 @@ public class SysPermission implements Serializable {
      * 父类Id
      */
     private Long parentId;
-    /**
-     * 父类列表
-     */
-    private String parentIds;
 
     /**
-     * 菜单层级 1、2、3
+     * 排序
      */
-    private Integer level;
+    private Integer orderNum;
 
     /**
-     * 可用状态
+     * 创建时间
      */
-    private Boolean available = Boolean.FALSE;
+    private Date createTime;
+
+    /**
+     * 修改时间
+     */
+    private Date updateTime;
 
 
 }

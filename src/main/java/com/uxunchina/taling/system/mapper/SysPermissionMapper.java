@@ -1,13 +1,15 @@
 package com.uxunchina.taling.system.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.uxunchina.taling.system.entity.SysPermission;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
- * (Syspermission)表数据库访问层
+ * <p>
+ *  Mapper 接口
+ * </p>
  *
  * @author chenfeng
- * @since 2019-09-03 16:26:03
+ * @since 2019-12-05
  */
 public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 

@@ -178,9 +178,9 @@ public class UserController extends BaseController {
             if(userId.equals(getUser().getUserId())){
                 //如果重置密码为当前用户，则退出登录
                 logOut();
-                return new DataResponse().code(Content.RESTPSW_SUCCESS).message("当前用户重置密码成功");
+                return new DataResponse().code(Content.RESTPSW_SUCCESS).message("当前用户重置密码为【"+Content.DEFALT_PSW+"】成功");
             }
-            return new DataResponse().success().message("重置用户密码成功");
+            return new DataResponse().success().message("重置用户密码为【"+Content.DEFALT_PSW+"】成功");
         }
         return new DataResponse().fail().message("服务器异常，请联系管理员");
     }
@@ -219,6 +219,10 @@ public class UserController extends BaseController {
     @ResponseBody
     @PostMapping("addUser")
     public DataResponse addUser(User user){
+        User u = userService.queryByUserName(user.getUserName());
+        if(u != null){
+            return new DataResponse().fail().message("该账号已存在");
+        }
         this.userService.createUser(user);
         return new DataResponse().success().message("新增用户成功");
     }

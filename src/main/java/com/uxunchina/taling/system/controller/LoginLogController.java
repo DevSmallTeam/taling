@@ -32,15 +32,15 @@ public class LoginLogController {
     private LoginLogService loginLogService;
 
     @ApiOperation("登录日志列表")
-    @GetMapping("loginRecodeList")
-    public String loginRecodeList(){
+    @GetMapping("loginRecordList")
+    public String loginRecordList(){
         return "user/loginRecord";
     }
 
     @ApiOperation("查询登录日志信息")
     @ResponseBody
-    @PostMapping("loginRecode")
-    public DataResponse loginRecode(@RequestParam Integer pageNumber,
+    @PostMapping("loginRecord")
+    public DataResponse loginRecord(@RequestParam Integer pageNumber,
                                     @RequestParam(defaultValue = "10") Integer pageSize,
                                     LoginLog loginLog){
         Page<LoginLog> page = new Page<LoginLog>(pageNumber,pageSize);

@@ -1,13 +1,15 @@
 package com.uxunchina.taling.system.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.uxunchina.taling.system.entity.SysPermission;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
- * (SysPermission)表服务接口
+ * <p>
+ *  服务类
+ * </p>
  *
  * @author chenfeng
- * @since 2019-09-03 16:26:03
+ * @since 2019-12-05
  */
 public interface SysPermissionService extends IService<SysPermission> {
 
