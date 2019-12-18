@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2019/9/21 20:59
  */
 @Configuration
-@MapperScan("com.uxunchina.*.mapper*")
+//@MapperScan("com.uxunchina.*.mapper*")
 public class MybatisPlusConfigure {
 
     /**
