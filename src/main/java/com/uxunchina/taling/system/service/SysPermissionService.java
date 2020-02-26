@@ -13,4 +13,21 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysPermissionService extends IService<SysPermission> {
 
+    /**
+     * 新增菜单/按钮
+     * @param sysPermission
+     */
+    void createSyspermission(SysPermission sysPermission);
+
+    /**
+     * 修改菜单/按钮
+     * @param sysPermission
+     */
+    void updateSysPermission(SysPermission sysPermission);
+
+    /**
+     * 删除菜单/按钮
+     * @param permissionId
+     */
+    void deleteSysPermission(String permissionId);
 }

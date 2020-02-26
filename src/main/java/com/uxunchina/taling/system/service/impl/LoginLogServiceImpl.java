@@ -8,6 +8,8 @@ import com.uxunchina.taling.common.utils.AddressUtil;
 import com.uxunchina.taling.common.utils.HttpContextUtil;
 import com.uxunchina.taling.common.utils.IPUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -21,9 +23,11 @@ import java.util.Date;
  * @since 2019-10-02
  */
 @Service
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
 
     @Override
+    @Transactional
     public void saveLoginLog(LoginLog loginLog) {
         loginLog.setLoginTime(new Date());
         HttpServletRequest request = HttpContextUtil.getHttpServletRequest();

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="/common/head::head('菜单管理')">
+<head th:include="common/head::head('菜单管理')">
 </head>
 <body>
 
@@ -48,58 +48,52 @@
 <!-- 表单弹窗 -->
 <script type="text/html" id="modelAuth">
     <form id="modelAuthForm" lay-filter="modelAuthForm" class="layui-form model-form">
-        <input name="authorityId" type="hidden"/>
+        <input name="permissionId" type="hidden"/>
         <div class="layui-form-item">
             <label class="layui-form-label">上级菜单</label>
             <div class="layui-input-block">
-                <select name="parentId" lay-search>
+                <select  name="parentId" lay-search>
                     <option value="">请选择上级菜单</option>
-                    <option value="1">系统管理</option>
-                    <option value="2">用户管理</option>
-                    <option value="5">角色管理</option>
-                    <option value="8">权限管理</option>
-                    <option value="11">登录日志</option>
-                    <option value="12">系统监控</option>
-                    <option value="13">Druid监控</option>
+                    <option th:each="m : ${menu}" th:value="${m.permissionId}" th:text="${m.permissionName}">
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">权限名称</label>
             <div class="layui-input-block">
-                <input name="authorityName" placeholder="请输入权限名称" type="text" class="layui-input" maxlength="50"
+                <input name="permissionName" placeholder="请输入权限名称" type="text" class="layui-input" maxlength="50"
                        lay-verType="tips" lay-verify="required" required/>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">权限类型</label>
             <div class="layui-input-block">
-                <input name="isMenu" type="radio" value="0" title="菜单" checked/>
-                <input name="isMenu" type="radio" value="1" title="按钮"/>
+                <input name="resourceType" type="radio" value="0" title="菜单" checked/>
+                <input name="resourceType" type="radio" value="1" title="按钮"/>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">菜单url</label>
             <div class="layui-input-block">
-                <input name="menuUrl" placeholder="请输入菜单url" type="text" class="layui-input"/>
+                <input name="url" placeholder="请输入菜单url" type="text" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">权限标识</label>
             <div class="layui-input-block">
-                <input name="authority" placeholder="请输入权限标识" type="text" class="layui-input"/>
+                <input name="permission" placeholder="请输入权限标识" type="text" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">菜单图标</label>
             <div class="layui-input-block">
-                <input name="menuIcon" placeholder="请输入菜单图标" type="text" class="layui-input"/>
+                <input name="icon" placeholder="请输入菜单图标" type="text" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">排序号</label>
             <div class="layui-input-block">
-                <input name="orderNumber" placeholder="请输入排序号" type="number" class="layui-input" min="0" max="1000"
+                <input name="orderNum" placeholder="请输入排序号" type="number" class="layui-input" min="0" max="1000"
                        lay-verType="tips" lay-verify="required|number" required/>
             </div>
         </div>
@@ -166,20 +160,20 @@
             if (layEvent === 'edit') { // 修改
                 showEditModel(data);
             } else if (layEvent === 'del') { // 删除
-                doDel(data.authorityId, data.authorityName);
+                doDel(data.permissionId, data.permissionName);
             }
         });
 
         // 删除
-        function doDel(authorityId, authorityName) {
-            layer.confirm('确定要删除“' + authorityName + '”吗？', {
+        function doDel(permissionId, permissionName) {
+            layer.confirm('确定要删除“' + permissionName + '”吗？', {
                 skin: 'layui-layer-admin',
                 shade: .1
             }, function (index) {
                 layer.close(index);
                 layer.load(2);
-                $.get('../../json/ok.json', {
-                    authorityId: authorityId
+                $.post('/sysPermission/deleteSysPermission', {
+                    permissionId: permissionId
                 }, function (res) {
                     layer.closeAll('loading');
                     if (res.code == 200) {
@@ -200,7 +194,7 @@
                 content: $('#modelAuth').html(),
                 success: function (layero, dIndex) {
                     $(layero).children('.layui-layer-content').css('overflow', 'visible');
-                    var url = mAuth ? '../../json/ok.json' : '../../json/ok.json';
+                    var url = mAuth ? '/sysPermission/updateSysPermission' : '/sysPermission/createSysPermission';
                     if (mAuth && mAuth.isMenu == '1') {
                         $('#modelAuthForm input[name="isMenu"][value="1"]').prop("checked", true);
                     }
@@ -208,10 +202,10 @@
                     // 表单提交事件
                     form.on('submit(modelSubmitAuth)', function (data) {
                         if (data.field.parentId == '') {
-                            data.field.parentId = '-1';
+                            data.field.parentId = '0';
                         }
                         layer.load(2);
-                        $.get(url, data.field, function (res) {
+                        $.post(url, data.field, function (res) {
                             layer.closeAll('loading');
                             if (res.code == 200) {
                                 layer.close(dIndex);
