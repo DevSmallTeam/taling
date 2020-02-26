@@ -105,10 +105,10 @@
                     {type: 'numbers', title: '#'},
                     {field: 'role', sort: true, title: '角色名'},
                     {field: 'description', sort: true, title: '描述'},
-                    {field: 'creatTime', sort: true,templet: function (d) {
-                            return util.toDateString(d.creatTime);
+                    {field: 'createTime', sort: true,templet: function (d) {
+                            return util.toDateString(d.createTime);
                         },title: '创建时间'},
-                        {field: 'available', sort: true, templet: '#tableStateRole', title: '状态'},
+                     {field: 'available', sort: true, templet: '#tableStateRole', title: '状态'},
                     {align: 'center', toolbar: '#tableBarRole', title: '操作', minWidth: 200}
                 ]
             ]
