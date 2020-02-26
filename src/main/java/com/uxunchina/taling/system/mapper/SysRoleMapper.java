@@ -2,6 +2,9 @@ package com.uxunchina.taling.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.uxunchina.taling.system.entity.SysRole;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,4 +22,11 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @return
      */
     SysRole getRoleByName(String roleName);
+
+    /**
+     * 查询角色权限信息
+     * @param sysRole
+     * @return
+     */
+    List<SysRole> findRolePermissions(@Param("sysRole") SysRole sysRole);
 }

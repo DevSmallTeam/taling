@@ -3,6 +3,8 @@ package com.uxunchina.taling.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.uxunchina.taling.system.entity.SysRole;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,6 +15,25 @@ import com.uxunchina.taling.system.entity.SysRole;
  */
 public interface SysRoleService extends IService<SysRole> {
 
+    /**
+     * 根据角色名字查询角色
+     * @param roleName
+     * @return
+     */
     SysRole getRoleByName(String roleName);
+
+    /**
+     * 查询角色权限
+     * @param sysRole
+     * @return
+     */
+    List<SysRole> findRolePermissions(SysRole sysRole);
+
+    /**
+     * 更新角色权限
+     * @param roleId
+     * @param permissionIds
+     */
+    void updateRolePermission(String roleId,String permissionIds);
 
 }

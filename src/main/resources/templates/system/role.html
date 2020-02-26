@@ -219,11 +219,11 @@
                 success: function (layero, index) {
                     $(layero).children('.layui-layer-content').css({'max-height': '300px', 'overflow': 'auto'});
                     layer.load(2);
-                    var setting = {check: {enable: true}, data: {simpleData: {enable: true}}};
-                    $.get('../../json/authTree.json', {
+                    var setting = {check: {enable: true}, data: {simpleData: {enable: true,idKey: "permissionId",pIdKey: "parentId",rootPId: "0"}}};
+                    $.post('/sysRole/findRolePermission', {
                         roleId: roleId
                     }, function (res) {
-                        $.fn.zTree.init($('#treeAuth'), setting, res);
+                        $.fn.zTree.init($('#treeAuth'), setting, res.data);
                         layer.closeAll('loading');
                     }, 'json');
                 },
@@ -233,11 +233,11 @@
                     var nodes = treeObj.getCheckedNodes(true);
                     var ids = new Array();
                     for (var i = 0; i < nodes.length; i++) {
-                        ids[i] = nodes[i].id;
+                        ids[i] = nodes[i].permissionId;
                     }
-                    $.get('../../json/ok.json', {
+                    $.post('/sysRole/updateRolePermission', {
                         roleId: roleId,
-                        authIds: JSON.stringify(ids)
+                        permissionIds: ids.join(",")
                     }, function (res) {
                         layer.closeAll('loading');
                         if (200 == res.code) {

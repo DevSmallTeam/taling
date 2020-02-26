@@ -23,7 +23,7 @@ import javax.annotation.Resource;
  * @author chenfeng
  * @since 2019-10-02
  */
-@Api("登录日志接口")
+@Api(tags = "登录日志接口")
 @Controller
 @RequestMapping("/loginLog")
 public class LoginLogController {

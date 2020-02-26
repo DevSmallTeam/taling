@@ -27,7 +27,7 @@ import java.io.IOException;
  * @Package com.uxunchina.taling.system.controller
  * @date 2019-08-31 10:13
  */
-@Api("用户登录接口")
+@Api(tags = "用户登录接口")
 @Slf4j
 @Controller
 public class LoginController extends BaseController {

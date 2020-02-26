@@ -49,7 +49,7 @@ public class SysRole implements Serializable {
     /**
      * 创建时间
      */
-    private Date creatTime;
+    private Date createTime;
 
     /**
      * 角色对应权限id

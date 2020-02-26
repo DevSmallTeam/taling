@@ -6,19 +6,27 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.uxunchina.taling.common.controller.BaseController;
 import com.uxunchina.taling.common.entity.DataResponse;
+import com.uxunchina.taling.common.utils.TreeUtil;
+import com.uxunchina.taling.system.entity.MenuTree;
+import com.uxunchina.taling.system.entity.SysPermission;
 import com.uxunchina.taling.system.entity.SysRole;
+import com.uxunchina.taling.system.service.SysPermissionService;
+import com.uxunchina.taling.system.service.SysRolePermissionService;
 import com.uxunchina.taling.system.service.SysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -35,6 +43,9 @@ public class SysRoleController extends BaseController {
 
     @Resource
     private SysRoleService sysRoleService;
+
+    @Resource
+    private SysPermissionService sysPermissionService;
 
     @ApiOperation("进入角色列表页面")
     @GetMapping("/roleList")
@@ -78,7 +89,7 @@ public class SysRoleController extends BaseController {
             return new DataResponse().fail().message("该角色已经存在");
         }
         Date date = new Date();
-        role.setCreatTime(date);
+        role.setCreateTime(date);
         role.setAvailable(Boolean.FALSE);
         boolean result = sysRoleService.save(role);
         if(!result){
@@ -113,7 +124,7 @@ public class SysRoleController extends BaseController {
         SysRole resultRole = sysRoleService.getById(role.getRoleId());
         if(role.getAvailable() != null) {
             role.setRole(resultRole.getRole());
-            role.setCreatTime(resultRole.getCreatTime());
+            role.setCreateTime(resultRole.getCreateTime());
             role.setDescription(resultRole.getDescription());
             boolean result = sysRoleService.updateById(role);
             if(!result) {
@@ -122,7 +133,7 @@ public class SysRoleController extends BaseController {
             return new DataResponse().success().message("修改角色状态成功");
         } else {
             role.setAvailable(resultRole.getAvailable());
-            role.setCreatTime(resultRole.getCreatTime());
+            role.setCreateTime(resultRole.getCreateTime());
             boolean result = sysRoleService.updateById(role);
             if (!result) {
                 return new DataResponse().fail().message("修改角色信息失败");
@@ -131,5 +142,23 @@ public class SysRoleController extends BaseController {
         }
     }
 
+    @ResponseBody
+    @PostMapping("findRolePermission")
+    public DataResponse findRolePermission(Long roleId){
+        SysRole sysRole = new SysRole();
+        sysRole.setRoleId(roleId);
+        List<SysRole> rolePermissions = this.sysRoleService.findRolePermissions(sysRole);
+        List<SysPermission> permissions = this.sysPermissionService.list();
+        List<MenuTree> menuTrees = TreeUtil.buildMenuTree(rolePermissions.get(0).getPermissionIds(),permissions);
+        return new DataResponse().success().message("查询角色权限成功").data(menuTrees);
+    }
+
+    @ResponseBody
+    @PostMapping("updateRolePermission")
+    public DataResponse updateRolePermission(@NotBlank(message = "{required}")String roleId, String permissionIds){
+        this.sysRoleService.updateRolePermission(roleId,permissionIds);
+        return new DataResponse().success().message("修改角色权限成功");
+    }
 }
+
 

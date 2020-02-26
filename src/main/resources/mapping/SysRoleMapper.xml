@@ -16,4 +16,16 @@
         SELECT * FROM SYS_ROLE WHERE ROLE = #{roleName}
     </select>
 
+    <!-- 查询角色权限 -->
+    <select id="findRolePermissions" parameterType="sysRole" resultType="sysRole">
+        select sr.role_id,sr.role,sr.create_time,group_concat(srp.permission_id) permission_ids
+        from sys_role sr
+        left join sys_role_permission srp on (sr.role_id = srp.role_id)
+        WHERE 1 = 1
+        <if test="sysRole.roleId != null and sysRole.roleId != ''">
+            AND sr.role_id = #{sysRole.roleId}
+        </if>
+        group by sr.role_id
+    </select>
+
 </mapper>

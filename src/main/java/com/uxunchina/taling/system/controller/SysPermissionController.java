@@ -28,7 +28,7 @@ import java.util.List;
  * @author chenfeng
  * @since 2019-12-05
  */
-@Api("菜单/按钮管理")
+@Api(tags = "菜单/按钮管理")
 @Controller
 @RequestMapping("/sysPermission")
 public class SysPermissionController extends BaseController {
