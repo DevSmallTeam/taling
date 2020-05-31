@@ -246,6 +246,9 @@ public class ShiroConfig {
         jedisPoolConfig.setTestOnBorrow(false);
         jedisPoolConfig.setTestOnReturn(false);
         redisSentinelManager.setMasterName(master);
+        if (StringUtils.isNotBlank(password)) {
+            redisSentinelManager.setPassword(password);
+        }
         redisSentinelManager.setHost(nodes);
         redisSentinelManager.setDatabase(database);
         redisSentinelManager.setJedisPoolConfig(jedisPoolConfig);
