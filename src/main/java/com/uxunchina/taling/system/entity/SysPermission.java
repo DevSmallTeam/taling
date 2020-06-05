@@ -54,7 +54,7 @@ public class SysPermission implements Serializable {
     private String icon;
 
     /**
-     * 资源类型 [menu|button]
+     * 资源类型 0菜单|1按钮
      */
     @NotBlank(message = "{required}")
     private String resourceType;

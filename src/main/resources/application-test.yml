@@ -15,7 +15,7 @@ spring:
 
   redis:
     #redis模式选择 single 为单机模式 sentinel 为主从模式
-    model: sentinel
+    model: single
     #单机配置
     # Redis数据库索引（默认为 0）
     database: 0
