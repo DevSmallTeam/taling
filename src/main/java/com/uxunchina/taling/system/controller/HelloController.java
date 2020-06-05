@@ -1,15 +1,20 @@
 package com.uxunchina.taling.system.controller;
 
+import com.ctrip.framework.apollo.Config;
+import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
 import com.uxunchina.taling.common.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.naming.Name;
+import java.util.Set;
 
 
 /**
@@ -27,6 +32,13 @@ public class HelloController {
     @Autowired
     private RedisUtils redisUtils;
 
+    @ApolloConfig
+    private Config config;
+
+    @Value("${app.name}")
+    private String name;
+
+
     @ResponseBody
     @RequestMapping("/hello")
     @RequiresPermissions("system:view")
@@ -41,7 +53,14 @@ public class HelloController {
         String value = (String)redisTemplate.opsForValue().get("key1");
         String value2 = (String)redisUtils.get("key2");
         System.out.println("value1="+value+" ,value2="+value2);
-        return "index";
+
+        Set<String> propertyNames = config.getPropertyNames();
+        propertyNames.forEach(key -> {
+            System.err.println(key+"="+config.getProperty(key,"123"));
+        });
+
+
+        return propertyNames.toString()+name;
     }
 
 }

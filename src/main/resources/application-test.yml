@@ -1,3 +1,16 @@
+app:
+  #AppId是应用的身份信息，是配置中心获取配置的一个重要信息。
+  id: taling-apollo
+apollo:
+  meta: http://47.115.81.246:8080/
+  bootstrap:
+    #在应用启动阶段，向Spring容器注入被托管的application.properties文件的配置信息。
+    enabled: true
+    #将Apollo配置加载提到初始化日志系统之前
+    #eagerLoad:
+      #enabled: true
+
+
 spring:
   #数据库连接池类型
   datasource:
