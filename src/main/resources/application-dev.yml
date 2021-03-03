@@ -1,3 +1,15 @@
+app:
+  #AppId是应用的身份信息，是配置中心获取配置的一个重要信息。
+  id: taling-apollo
+apollo:
+  meta: http://172.16.15.204:8080/
+  bootstrap:
+    #在应用启动阶段，向Spring容器注入被托管的application.properties文件的配置信息。
+    enabled: true
+      #将Apollo配置加载提到初始化日志系统之前
+#    eagerLoad:
+#      enabled: true
+
 spring:
   #数据库连接池类型
   datasource:
@@ -5,7 +17,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/taling?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
     username: root
-    password: root123456
+    password: 123456
   jpa:
     hibernate:
       ddl-auto: update

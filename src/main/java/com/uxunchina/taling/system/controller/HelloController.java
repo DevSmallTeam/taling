@@ -35,7 +35,7 @@ public class HelloController {
     @ApolloConfig
     private Config config;
 
-    @Value("${app.name}")
+    @Value("${app.name:chenfeng}")
     private String name;
 
 
@@ -52,11 +52,11 @@ public class HelloController {
         redisUtils.set("key2","value2");
         String value = (String)redisTemplate.opsForValue().get("key1");
         String value2 = (String)redisUtils.get("key2");
-        System.out.println("value1="+value+" ,value2="+value2);
+        log.warn("value1={},value2={}" ,value,value2);
 
         Set<String> propertyNames = config.getPropertyNames();
         propertyNames.forEach(key -> {
-            System.err.println(key+"="+config.getProperty(key,"123"));
+            log.info("{}={}",key,config.getProperty(key,"123"));
         });
 
 
