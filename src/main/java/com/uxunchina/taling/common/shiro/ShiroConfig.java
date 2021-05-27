@@ -1,7 +1,9 @@
 package com.uxunchina.taling.common.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.uxunchina.taling.common.utils.ShiroUtils;
+import com.uxunchina.taling.system.entity.SysUserRole;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.codec.Base64;
@@ -23,8 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.JedisPoolConfig;
 
 import javax.servlet.Filter;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author chenfeng
@@ -72,6 +73,9 @@ public class ShiroConfig {
 
     @Value("${spring.redis.database:0}")
     private int database;
+
+    @Value("${system.access.filter.ignore-urls}")
+    private String ignoreUrls;
 
     /**
      * 凭证匹配器
@@ -134,16 +138,18 @@ public class ShiroConfig {
         //所以上面的url要苛刻，宽松的url要放在下面，尤其是"/**"要放到最下面，如果放前面的话其后的验证规则就没作用了。
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 配置不会被拦截的链接 顺序判断
-        filterChainDefinitionMap.put("/jq-module/**", "anon");
-        filterChainDefinitionMap.put("/assets/**", "anon");
-        filterChainDefinitionMap.put("/json/**", "anon");
-        filterChainDefinitionMap.put("/pages/**", "anon");
-
-        filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/register", "anon");
-
-        filterChainDefinitionMap.put("/captcha", "anon");
-        filterChainDefinitionMap.put("/favicon.ico", "anon");
+        String[] ignoreUrl = ignoreUrls.split(StringPool.COMMA);
+        setIgnoreUrl(filterChainDefinitionMap, ignoreUrl);
+//        filterChainDefinitionMap.put("/jq-module/**", "anon");
+//        filterChainDefinitionMap.put("/assets/**", "anon");
+//        filterChainDefinitionMap.put("/json/**", "anon");
+//        filterChainDefinitionMap.put("/pages/**", "anon");
+//
+//        filterChainDefinitionMap.put("/login", "anon");
+//        filterChainDefinitionMap.put("/register", "anon");
+//
+//        filterChainDefinitionMap.put("/captcha", "anon");
+//        filterChainDefinitionMap.put("/favicon.ico", "anon");
         filterChainDefinitionMap.put("/**", "user");
 
         //设置登录页面
@@ -154,6 +160,12 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
+    }
+
+    private void setIgnoreUrl(Map<String, String> filterChainDefinitionMap, String[] ignoreUrl) {
+        Arrays.stream(ignoreUrl).forEach(url -> {
+            filterChainDefinitionMap.put(url,"anon");
+        });
     }
 
     /**

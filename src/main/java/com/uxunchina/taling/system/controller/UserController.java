@@ -63,6 +63,11 @@ public class UserController extends BaseController {
      * @return
      */
     @ApiOperation("修改用户密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "password",value = "当前密码 ",required = true),
+            @ApiImplicitParam(name = "newPassword",value = "新密码",required = true),
+            @ApiImplicitParam(name = "confirmPassword",value = "确认密码",required = true),
+    })
     @ResponseBody
     @PostMapping("modifyPassword")
     public DataResponse modifyPassword(@RequestParam("password") String password,
@@ -202,6 +207,7 @@ public class UserController extends BaseController {
      * 查询所有的角色
      * @return
      */
+    @ApiOperation(value = "查询所有的角色")
     @RequiresPermissions("role:view")
     @ResponseBody
     @PostMapping("role")
@@ -215,6 +221,7 @@ public class UserController extends BaseController {
      * @param user
      * @return
      */
+    @ApiOperation(value = "新增用户")
     @RequiresPermissions("user:add")
     @ResponseBody
     @PostMapping("addUser")
@@ -227,6 +234,7 @@ public class UserController extends BaseController {
         return new DataResponse().success().message("新增用户成功");
     }
 
+    @ApiOperation(value = "编辑用户")
     @RequiresPermissions("user:edit")
     @ResponseBody
     @PostMapping("updateUser")

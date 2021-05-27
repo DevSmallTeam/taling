@@ -142,6 +142,7 @@ public class SysRoleController extends BaseController {
         }
     }
 
+    @ApiOperation("查询角色权限")
     @ResponseBody
     @PostMapping("findRolePermission")
     public DataResponse findRolePermission(Long roleId){
@@ -153,6 +154,7 @@ public class SysRoleController extends BaseController {
         return new DataResponse().success().message("查询角色权限成功").data(menuTrees);
     }
 
+    @ApiOperation("更新角色权限")
     @ResponseBody
     @PostMapping("updateRolePermission")
     public DataResponse updateRolePermission(@NotBlank(message = "{required}")String roleId, String permissionIds){

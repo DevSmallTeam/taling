@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.uxunchina.taling.common.utils.HttpContextUtil;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +26,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "login_log")
+@ApiModel(value = "登录日志表")
 public class LoginLog implements Serializable {
 
     private static final long serialVersionUID = -875509921907220645L;
@@ -33,35 +36,42 @@ public class LoginLog implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "主键id")
     private Long id;
 
     /**
      * 登录用户
      */
+    @ApiModelProperty(value = "登录用户")
     private String userName;
 
     /**
      * 登录时间
      */
+    @ApiModelProperty(value = "登录时间")
     private Date loginTime;
 
     /**
      * 登录地点
      */
+    @ApiModelProperty(value = "登录地点")
     private String location;
     /**
      * 登录 IP
      */
+    @ApiModelProperty(value = "登录IP")
     private String ip;
     /**
      * 操作系统
      */
     @Column(name="`system`")
     @TableField("`system`")
+    @ApiModelProperty(value = "操作系统")
     private String system;
     /**
      * 登录浏览器
      */
+    @ApiModelProperty(value = "登录浏览器")
     private String browser;
 
     private transient String loginTimeFrom;

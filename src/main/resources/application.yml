@@ -27,5 +27,9 @@ mybatis-plus:
       banner: false
     #驼峰下划线映射
     map-underscore-to-camel-case: true
+system:
+  access:
+    filter:
+      ignore-urls: /v2/**,/webjars/**,/swagger-resources/**,/doc**,/jq-module/**,/assets/**,/json/**,/pages/**,/login,/register,/captcha,/favicon.ico
 #配置sql日志输出
 logging.level.com.uxunchina.taling.mapper: debug

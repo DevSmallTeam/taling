@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,6 +22,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "user")
+@ApiModel(value = "用户信息")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 9100517633904500429L;
@@ -30,30 +33,37 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "用户id")
     private Long userId;
     /**
      *  用户名
      */
+    @ApiModelProperty(value = "用户名")
     private String userName;
     /**
      * 昵称
      */
+    @ApiModelProperty(value = "昵称")
     private String nickName;
     /**
      * 密码
      */
+    @ApiModelProperty(value = "密码")
     private String password;
     /**
      * 加密盐
      */
+    @ApiModelProperty(value = "加密盐")
     private String salt;
     /**
      * 状态 0 停用 1启用
      */
+    @ApiModelProperty(value = "状态 0 停用 1启用")
     private String state;
     /**
      * 创建时间
      */
+    @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
     /**
@@ -61,12 +71,14 @@ public class User implements Serializable {
      */
     @Transient
     @TableField(exist = false)
+    @ApiModelProperty(value = "角色id")
     private String roleIds;
     /**
      * 所属角色
      */
     @Transient
     @TableField(exist = false)
+    @ApiModelProperty(value = "所属角色")
     private String roles;
 
 
