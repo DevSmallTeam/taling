@@ -51,8 +51,8 @@ public class SysPermissionController extends BaseController {
     @GetMapping("list")
     public DataResponse sysPermission(){
         QueryWrapper<SysPermission> ew = new QueryWrapper<SysPermission>();
+        ew.orderByAsc("order_num");
         List<SysPermission> data = sysPermissionService.list(ew);
-        ew.orderByAsc("orderNum");
         return new DataResponse().success().count((long) data.size()).data(data).message("查询菜单/按钮成功");
     }
 
