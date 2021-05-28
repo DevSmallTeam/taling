@@ -71,7 +71,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         if (sysPermission.getParentId() == null)
             sysPermission.setParentId(SysPermission.TOP_NODE);
         if (SysPermission.TYPE_BUTTON.equals(sysPermission.getResourceType())) {
-            sysPermission.setUrl(null);
+            sysPermission.setUrl("#");
             sysPermission.setIcon(null);
         }
     }

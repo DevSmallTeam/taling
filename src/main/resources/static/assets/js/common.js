@@ -17,7 +17,8 @@ layui.config({
     zTree: 'zTree/zTree',
     introJs: 'introJs/introJs',
     fileChoose: 'fileChoose/fileChoose',
-    tagsInput: 'tagsInput/tagsInput'
+    tagsInput: 'tagsInput/tagsInput',
+    iconPicker: 'iconPicker/iconPicker'
 }).use(['layer', 'admin'], function () {
     var $ = layui.jquery;
     var layer = layui.layer;
