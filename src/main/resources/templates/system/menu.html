@@ -46,7 +46,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <!-- 表单弹窗 -->
-<script type="text/html" id="modelAuth">
+<div style="display: none;"  id="modelAuth">
     <form id="modelAuthForm" lay-filter="modelAuthForm" class="layui-form model-form">
         <input name="permissionId" type="hidden"/>
         <div class="layui-form-item">
@@ -87,13 +87,7 @@
         <div class="layui-form-item showL">
             <label class="layui-form-label">菜单图标</label>
             <div class="layui-input-block">
-                <input name="icon" placeholder="请输入菜单图标" type="text" class="layui-input"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">选择图标</label>
-            <div class="layui-input-block">
-                <input type="text" id="iconPicker" lay-filter="iconPicker" class="layui-input">
+                <input name="icon" type="text" id="iconPicker" lay-filter="iconPicker" class="layui-input" />
             </div>
         </div>
         <div class="layui-form-item">
@@ -108,7 +102,9 @@
             <button class="layui-btn" lay-filter="modelSubmitAuth" lay-submit>保存</button>
         </div>
     </form>
-</script>
+</div>
+
+<!--</script>-->
 
 <script>
     layui.use(['layer', 'form', 'table', 'admin', 'treetable','iconPicker'], function () {
@@ -135,16 +131,13 @@
             cellWidth: '43px',
             // 点击回调
             click: function (data) {
+                $("#iconPicker").val(data.icon);
                 console.log(data);
             }
         });
 
-        /**
-         * 选中图标 （常用于更新时默认选中图标）
-         * @param filter lay-filter
-         * @param iconName 图标名称，自动识别fontClass/unicode
-         */
-        iconPicker.checkIcon('iconPicker', 'layui-icon-star-fill');
+        //默认不选泽图标
+        iconPicker.checkIcon('iconPicker', '');
 
         // 渲染表格
         function renderTable() {
@@ -199,12 +192,16 @@
 
         // 此处即为 radio 的监听事件
         form.on('radio(showM)', function(data){
-            if (data.value == '0') {
+            hideIconAndUrl(data.value);
+        });
+
+        function hideIconAndUrl(isMenu) {
+            if (isMenu == '0') {
                 $(".showL").show();
-            }else if (data.value == '1') {
+            }else if (isMenu == '1') {
                 $(".showL").hide();
             }
-        });
+        }
 
         // 删除
         function doDel(permissionId, permissionName) {
@@ -233,19 +230,26 @@
             admin.open({
                 type: 1,
                 title: (mAuth ? '修改' : '添加') + '权限',
-                content: $('#modelAuth').html(),
+                content: $('#modelAuth'),
                 success: function (layero, dIndex) {
                     $(layero).children('.layui-layer-content').css('overflow', 'visible');
                     var url = mAuth ? '/sysPermission/updateSysPermission' : '/sysPermission/createSysPermission';
-                    if (mAuth && mAuth.isMenu == '1') {
-                        $('#modelAuthForm input[name="isMenu"][value="1"]').prop("checked", true);
+                    if(mAuth){
+                        form.val('modelAuthForm', mAuth);  // 回显数据
+                        iconPicker.checkIcon('iconPicker', mAuth.icon ? mAuth.icon:'');
+                        hideIconAndUrl(mAuth.resourceType);
+                    }else{
+                        $("#modelAuthForm")[0].reset();
+                        layui.form.render();
+                        iconPicker.checkIcon('iconPicker','');
+                        hideIconAndUrl(0);
                     }
-                    form.val('modelAuthForm', mAuth);  // 回显数据
                     // 表单提交事件
                     form.on('submit(modelSubmitAuth)', function (data) {
                         if (data.field.parentId == '') {
                             data.field.parentId = '0';
                         }
+                        data.field.icon = $("#iconPicker").val();
                         layer.load(2);
                         $.post(url, data.field, function (res) {
                             layer.closeAll('loading');
