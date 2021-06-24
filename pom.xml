@@ -39,6 +39,7 @@
         <commons-lang3.version>3.3.1</commons-lang3.version>
         <commons-io.version>2.6</commons-io.version>
         <ip2region.version>1.7</ip2region.version>
+        <jasypt.version>3.0.3</jasypt.version>
     </properties>
 
     <dependencies>
@@ -171,6 +172,14 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>${alibaba.druid.version}</version>
+        </dependency>
+        <!--end-->
+
+        <!--datasource密码加密插件-->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt.version}</version>
         </dependency>
         <!--end-->
 
