@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
@@ -24,8 +23,6 @@ import java.util.Date;
 @Slf4j
 @TableName("login_log")
 @Data
-@Entity
-@Table(name = "login_log")
 @ApiModel(value = "登录日志表")
 public class LoginLog implements Serializable {
 
@@ -33,8 +30,6 @@ public class LoginLog implements Serializable {
     /**
      * id
      */
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "主键id")
     private Long id;
@@ -64,7 +59,6 @@ public class LoginLog implements Serializable {
     /**
      * 操作系统
      */
-    @Column(name="`system`")
     @TableField("`system`")
     @ApiModelProperty(value = "操作系统")
     private String system;

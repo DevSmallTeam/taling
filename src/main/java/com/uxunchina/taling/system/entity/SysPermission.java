@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -21,8 +20,6 @@ import java.util.Date;
  */
 @TableName("sys_permission")
 @Data
-@Entity
-@Table(name = "sys_permission")
 @ApiModel(value = "权限表")
 public class SysPermission implements Serializable {
 
@@ -38,8 +35,6 @@ public class SysPermission implements Serializable {
     /**
      * 主键ID
      */
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "权限id")
     private Long permissionId;

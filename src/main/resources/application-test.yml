@@ -19,12 +19,6 @@ spring:
     url: jdbc:mysql://rm-bp1cj7wc769f65lfbdo.mysql.rds.aliyuncs.com:3306/taling
     username: taling
     password: taling@123
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   redis:
     #redis模式选择 single 为单机模式 sentinel 为主从模式

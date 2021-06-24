@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,16 +19,12 @@ import java.util.Date;
  */
 @TableName("sys_role")
 @Data
-@Entity
-@Table(name = "sys_role")
 @ApiModel(value = "角色表")
 public class SysRole implements Serializable {
     private static final long serialVersionUID = 8014787112682805259L;
     /**
      * 角色ID
      */
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "角色id")
     private Long roleId;
@@ -37,7 +32,6 @@ public class SysRole implements Serializable {
     /**
      * 角色
      */
-    @Column(nullable = false, unique = true)
     @NotBlank(message ="名称不能为空")
     @ApiModelProperty(value = "角色名称")
     private String role;

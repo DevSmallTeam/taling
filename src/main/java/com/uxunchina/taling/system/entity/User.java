@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,8 +19,6 @@ import java.util.Date;
  */
 @TableName("user")
 @Data
-@Entity
-@Table(name = "user")
 @ApiModel(value = "用户信息")
 public class User implements Serializable {
 
@@ -30,8 +27,6 @@ public class User implements Serializable {
     /**
      * 用户ID 主键
      */
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "用户id")
     private Long userId;
@@ -69,14 +64,12 @@ public class User implements Serializable {
     /**
      * 角色id
      */
-    @Transient
     @TableField(exist = false)
     @ApiModelProperty(value = "角色id")
     private String roleIds;
     /**
      * 所属角色
      */
-    @Transient
     @TableField(exist = false)
     @ApiModelProperty(value = "所属角色")
     private String roles;

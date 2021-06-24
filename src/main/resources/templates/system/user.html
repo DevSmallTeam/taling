@@ -165,6 +165,11 @@
                         {field: 'userName', sort: true, title: '账号'},
                         {field: 'nickName', sort: true, title: '用户名'},
                         {
+                            field: 'roles', title: '角色', templet: function (d) {
+                                return '<span class="layui-badge layui-badge-gray">' + d.roles + '</span>';
+                            }, sort: true, width: 150
+                        },
+                        {
                             field: 'createTime', sort: true, templet: function (d) {
                                 return util.toDateString(d.createTime);
                             }, title: '创建时间'

@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -17,8 +16,6 @@ import java.io.Serializable;
  */
 @TableName("sys_role_permission")
 @Data
-@Entity
-@Table(name = "sys_role_permission")
 @ApiModel(value = "角色权限关联表")
 public class SysRolePermission implements Serializable {
 
@@ -26,8 +23,6 @@ public class SysRolePermission implements Serializable {
     /**
      * 主键ID
      */
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "主键id")
     private Long id;
