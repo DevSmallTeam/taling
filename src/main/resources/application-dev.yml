@@ -16,8 +16,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/taling?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
-    username: root
+    username: ENC(GkDU6rFtqp/PqiRWiSQPeA==)
     password: ENC(5s1SKdcHPTvkADVzwdkNHg==)
+    ##password: 123456
   redis:
     #redis模式选择 single 为单机模式 sentinel 为主从模式
     model: single
@@ -50,3 +51,5 @@ spring:
 jasypt:
   encryptor:
     password: chenfeng
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
