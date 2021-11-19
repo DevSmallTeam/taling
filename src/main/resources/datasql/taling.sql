@@ -1,3 +1,5 @@
+CREATE database if NOT EXISTS `taling` default character set utf8mb4 collate utf8mb4_general_ci;
+use `taling`;
 /*
  Navicat Premium Data Transfer
 
