@@ -1,4 +1,4 @@
-package com.uxunchina.taling.common.someAlgorithmProblem;
+package com.uxunchina.taling.study.someAlgorithmProblem;
 
 
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package com.uxunchina.taling.common.someAlgorithmProblem;
+package com.uxunchina.taling.study.someAlgorithmProblem;
 
 import org.apache.commons.lang3.StringUtils;
 
