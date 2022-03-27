@@ -6,7 +6,7 @@ public class LinkedListDemo {
 
     private Node first; //根节点
     private Node last; //尾节点
-    private int size = 0; //链表长度
+    private int size = 0; //链表长度20010
 
     public int getSize() {
         return this.size;
@@ -106,33 +106,80 @@ public class LinkedListDemo {
         return false;
     }
 
-    //TODO 删除方法待整理
     public boolean removeFirst(){
         if(this.first != null){
-            //1、找到下一个节点设置为
-            this.first.prev = null;
-            this.first = this.first.next;
-            this.size --;
+            removeNode(this.first);
             return true;
         }
         return false;
     }
 
-    //TODO 删除方法待整理
     public boolean removeLast(){
         if(this.last != null){
-            this.last.prev.next = null;
-            this.last = this.last.prev;
-            this.size --;
+            removeNode(this.last);
             return true;
         }
         return false;
     }
 
-    //TODO 删除方法待整理
     public boolean removeObj(String obj){
+        if(StringUtils.isNotBlank(obj) && this.size > 0){
+            Node node = this.first;
+            for (int i = 0; i < this.size; i++) {
+                if(obj.equals(node.item)){
+                    removeNode(node);
+                    return true;
+                }
+                node = node.next;
+            }
+
+        }
         return false;
     }
+
+    /**
+     * node prev next
+     * 删除的节点如果是根节点
+     * 1、node.prev == null && node.next != null
+     * node.next.prev ==  null , root = node.next;
+     * 删除的链表只有一个节点
+     * 2、node.prev == null && node.next == null
+     * root = null, last =null;
+     * 删除的几点为中间节点
+     * 3、node.prev != null && node.next != null
+     * node.prev.next = node.next node.next.prev = node.prev
+     * 删除的节点为尾节点
+     * 4、node.prev != null && node.next == null
+     * node.prev.next = null last = node.prev
+     *
+     * 总结：
+     * if(node.prev == null){
+     *  root = node.next;
+     * }else{
+     * node.prev.next = node.next
+     * }
+     * if(node.next == null){
+     * last = node.prev
+     * }else{
+     * node.next.prev = node.prev
+     * }
+     * @param node
+     */
+    private void removeNode(Node node){
+        if(node.prev == null){
+            first = node.next;
+        }else{
+            node.prev.next = node.next;
+        }
+        if(node.next == null){
+            last = node.prev;
+        }else{
+            node.next.prev = node.prev;
+        }
+        this.size -- ;
+        node = null;
+    }
+
 
 
     private static class Node {
