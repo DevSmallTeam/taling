@@ -3,6 +3,7 @@ package com.uxunchina.taling.antiReplay;
 import com.alibaba.fastjson.JSONObject;
 import com.uxunchina.taling.common.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -49,6 +50,9 @@ public class AntiReplayAspect {
         Method method = signature.getMethod();
         AntiReplay antiReplay = method.getAnnotation(AntiReplay.class);
         String token = request.getHeader("antiReplayToken");
+        if(StringUtils.isBlank(token)){
+            throw new RuntimeException("防重放标识Token：antiReplayToken不能为空");
+        }
         String redisKey = "ANTI_REPLAY_PREFIX:"
                 .concat(token)
                 .concat(getMethodSign(method, proceedingJoinPoint.getArgs()));
@@ -67,7 +71,7 @@ public class AntiReplayAspect {
                 throw new RuntimeException(throwable);
             }
         } else {
-            log.warn(redisUtils.getExpire(redisKey)+"秒内，请勿重复提交！！！,token:{}",token);
+            log.warn("{}秒内，请勿重复提交,antiReplayToken:{}，redisValue:{}",redisUtils.getExpire(redisKey),token,redisValue);
             throw new RuntimeException("请勿重复提交");
         }
     }
