@@ -2,9 +2,9 @@ package com.uxunchina.taling.system.controller;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
+import com.uxunchina.taling.antiReplay.AntiReplay;
 import com.uxunchina.taling.common.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.naming.Name;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -49,7 +48,8 @@ public class HelloController {
 
     @ResponseBody
     @RequestMapping("/hello")
-    @RequiresPermissions("system:view")
+    @AntiReplay(value = "hello",expireSeconds = 30)
+//    @RequiresPermissions("system:view")
     public String index(Model model){
         log.debug("debug级别日志");
         log.error("错误日志-----");
