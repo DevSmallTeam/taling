@@ -2,7 +2,7 @@ package com.uxunchina.taling.system.controller;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
-import com.uxunchina.taling.antiReplay.AntiReplay;
+import com.uxunchina.taling.antiReplay.EnableAntiReplay;
 import com.uxunchina.taling.common.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.util.text.BasicTextEncryptor;
@@ -49,7 +49,7 @@ public class HelloController {
 
     @ResponseBody
     @RequestMapping("/hello/{param}")
-    @AntiReplay(value = "hello",expireSeconds = 30)
+    @EnableAntiReplay(value = "hello",expireSeconds = 30)
 //    @RequiresPermissions("system:view")
     public String index(Model model, @PathVariable String param){
         log.debug("debug级别日志");
