@@ -1,10 +1,12 @@
 package com.uxunchina.taling.study.day4;
 
+import com.sun.codemodel.internal.writer.ZipCodeWriter;
 import sun.misc.Launcher;
+import sun.security.ec.SunEC;
+import sun.security.util.CurveDB;
 
 import java.net.URL;
-
-import static com.sun.tools.doclint.Entity.sum;
+import java.security.Provider;
 
 /**
  * classLoad
@@ -44,16 +46,22 @@ public class ClassLoadTest {
 class ClassLoadTest1 {
     public static void main(String[] args) {
         System.out.println("----------启动类加载器------------");
+        //获取bootstrap class loader 能加载的哪些路径
         URL[] urLs = Launcher.getBootstrapClassPath().getURLs();
         for (URL element : urLs) {
             System.out.println(element.toExternalForm());
         }
-        //从上面的路径中随意选择一个类，来看看他的类加载器是什么
+        //从上面的路径中随意选择一个类，来看看他的类加载器是什么: 引导类加载器
+        ClassLoader classLoader = Provider.class.getClassLoader();
+        System.out.println(classLoader);
 
         System.out.println("---------扩展类加载器---------");
         String property = System.getProperty("java.ext.dirs");
         for (String path : property.split(";")) {
             System.out.println(path);
         }
+
+        ClassLoader classLoader1 = SunEC.class.getClassLoader();
+        System.out.println(classLoader1); //sun.misc.Launcher$ExtClassLoader@3b95a09c
     }
 }
