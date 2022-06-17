@@ -27,7 +27,7 @@
         <github.kaptcha.version>0.0.9</github.kaptcha.version>
         <mybatis-plus.version>3.1.1</mybatis-plus.version>
         <mybatis-plus.velocity-engine-core.version>2.1</mybatis-plus.velocity-engine-core.version>
-        <alibaba.fastjson.version>1.2.76</alibaba.fastjson.version>
+        <alibaba.fastjson.version>1.2.83</alibaba.fastjson.version>
         <swagger2.version>2.9.2</swagger2.version>
         <swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
         <io.swagger.version>1.5.22</io.swagger.version>
