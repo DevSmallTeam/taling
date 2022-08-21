@@ -3,6 +3,12 @@ spring:
     active: dev
   application:
     name: taling-show
+  # elasticsearch 配置
+  data:
+    elasticsearch:
+      cluster-name: my-es
+      cluster-nodes: 47.115.81.246:9300
+
 server:
   port: 8888
 
@@ -19,7 +25,7 @@ server:
 
 mybatis-plus:
   # 实体类扫描路径
-  type-aliases-package: com.uxunchina.taling.*.entity
+  type-aliases-package: org.chenfeng.taling.*.entity
   #xml扫描路径
   mapper-locations: classpath:/mapping/*.xml
   configuration:
@@ -34,4 +40,4 @@ system:
     filter:
       ignore-urls: /v2/**,/webjars/**,/swagger-resources/**,/doc**,/jq-module/**,/assets/**,/json/**,/pages/**,/login,/register,/captcha,/favicon.ico
 #配置sql日志输出
-logging.level.com.uxunchina.taling.mapper: debug
+logging.level.org.chenfeng.taling.mapper: debug

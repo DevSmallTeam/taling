@@ -9,7 +9,7 @@
         <version>2.1.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.uxunchina</groupId>
+    <groupId>org.chenfeng</groupId>
     <artifactId>taling</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
@@ -40,6 +40,7 @@
         <commons-io.version>2.6</commons-io.version>
         <ip2region.version>1.7</ip2region.version>
         <jasypt.version>3.0.3</jasypt.version>
+        <aspectj.version>1.9.6</aspectj.version>
     </properties>
 
     <dependencies>
@@ -272,9 +273,14 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.9.6</version>
+            <version>${aspectj.version}</version>
         </dependency>
         <!-- end -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
 
     </dependencies>
 
