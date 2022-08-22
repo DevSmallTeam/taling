@@ -2,9 +2,9 @@ package org.chenfeng.taling.system.controller;
 
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
-import org.chenfeng.taling.antiReplay.AntiReplay;
-import org.chenfeng.taling.common.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.chenfeng.taling.antiReplay.EnableAntiReplay;
+import org.chenfeng.taling.common.utils.RedisUtils;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +49,7 @@ public class HelloController {
 
     @ResponseBody
     @RequestMapping("/hello/{param}")
-    @AntiReplay(value = "hello",expireSeconds = 30)
+    @EnableAntiReplay(value = "hello",expireSeconds = 30)
 //    @RequiresPermissions("system:view")
     public String index(Model model, @PathVariable String param){
         log.debug("debug级别日志");

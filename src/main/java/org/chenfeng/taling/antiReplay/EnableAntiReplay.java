@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Target({ElementType.PARAMETER, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface AntiReplay {
+public @interface EnableAntiReplay {
     /**
      * 防重复操作限时标记数值（存储redis限时标记数值）
      */

@@ -1,6 +1,7 @@
 package org.chenfeng.taling.antiReplay;
 
 import com.alibaba.fastjson.JSONObject;
+import org.chenfeng.taling.common.entity.DataResponse;
 import org.chenfeng.taling.common.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +19,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -37,30 +41,32 @@ public class AntiReplayAspect {
     @Resource
     private RedisUtils redisUtils;
 
-    @Pointcut("@annotation(org.chenfeng.taling.antiReplay.AntiReplay)")
+    @Pointcut("@annotation(org.chenfeng.taling.antiReplay.EnableAntiReplay)")
     public void point() {
     }
 
     @Around("point()")
-    public Object interceptor(ProceedingJoinPoint proceedingJoinPoint) {
+    public Object interceptor(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
+        HttpServletResponse response = attributes.getResponse();
         MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
         Method method = signature.getMethod();
-        AntiReplay antiReplay = method.getAnnotation(AntiReplay.class);
+        EnableAntiReplay enableAntiReplay = method.getAnnotation(EnableAntiReplay.class);
         String token = request.getHeader("antiReplayToken");
         if(StringUtils.isBlank(token)){
-            throw new RuntimeException("防重放标识Token：antiReplayToken不能为空");
+            returnJson(response,new DataResponse().fail().message("防重放标识Token：antiReplayToken不能为空"));
+            return null;
         }
         String redisKey = "ANTI_REPLAY_PREFIX:"
                 .concat(token)
                 .concat(getMethodSign(method, proceedingJoinPoint.getArgs()));
-        String redisValue = redisKey.concat(antiReplay.value()).concat("submit duplication");
+        String redisValue = redisKey.concat(enableAntiReplay.value()).concat("submit duplication");
 
         if (!redisUtils.hasKey(redisKey)) {
             //设置防重复操作限时标记（前置通知）
-            redisUtils.set(redisKey, redisValue, antiReplay.expireSeconds());
+            redisUtils.set(redisKey, redisValue, enableAntiReplay.expireSeconds());
             try {
                 //正常执行方法并返回
                 //ProceedingJoinPoint类型参数可以决定是否执行目标方法，且环绕通知必须要有返回值，返回值即为目标方法的返回值
@@ -72,12 +78,13 @@ public class AntiReplayAspect {
             }
         } else {
             log.warn("{}秒内，请勿重复提交,antiReplayToken:{}，redisValue:{}",redisUtils.getExpire(redisKey),token,redisValue);
-            throw new RuntimeException("请勿重复提交");
+            returnJson(response,new DataResponse().fail().message(redisUtils.getExpire(redisKey)+"秒内，请勿重复提交"));
+            return null;
         }
     }
 
     /**
-     * 生成方法标记：采用数字签名算法SHA1对方法签名字符串加签
+     * 生成方法标记：采用数字签名算法SHA1对方法及请求参数字符串加签
      *
      * @param method
      * @param args
@@ -101,4 +108,17 @@ public class AntiReplayAspect {
         return JSONObject.toJSONString(arg);
     }
 
+    private void returnJson(HttpServletResponse response,Object object){
+        PrintWriter writer = null;
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+        try{
+            writer = response.getWriter();
+            writer.print(JSONObject.toJSONString(object));
+        }catch (IOException e){
+
+        }finally {
+            if(writer != null) writer.close();
+        }
+    }
 }
