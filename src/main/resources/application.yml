@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: local
   application:
     name: taling-show
   # elasticsearch 配置

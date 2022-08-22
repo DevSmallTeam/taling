@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -44,6 +45,7 @@ public class LoginLog implements Serializable {
      * 登录时间
      */
     @ApiModelProperty(value = "登录时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     private Date loginTime;
 
     /**
