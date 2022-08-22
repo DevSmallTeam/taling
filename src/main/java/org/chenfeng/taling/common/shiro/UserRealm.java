@@ -1,6 +1,6 @@
 package org.chenfeng.taling.common.shiro;
 
-import org.chenfeng.taling.common.entity.Content;
+import org.chenfeng.taling.common.entity.Constant;
 import org.chenfeng.taling.common.entity.UserRoleBean;
 import org.chenfeng.taling.common.entity.UserRolePermissionBean;
 import org.chenfeng.taling.system.entity.User;
@@ -64,7 +64,7 @@ public class UserRealm extends AuthorizingRealm {
         User user = userService.queryByUserName(userName);
         if(user == null ){
             throw new UnknownAccountException();
-        }else if(Content.USER_LOCK.equals(user.getState())){
+        }else if(Constant.USER_STATE_LOCK.equals(user.getState())){
             throw new LockedAccountException();
         }else{
             log.info("获取的用户名是{},密码是{}",userName,user.getPassword());

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.chenfeng.taling.common.entity.Content;
+import org.chenfeng.taling.common.entity.Constant;
 import org.chenfeng.taling.common.entity.UserRoleBean;
 import org.chenfeng.taling.common.entity.UserRolePermissionBean;
 import org.chenfeng.taling.system.entity.SysUserRole;
@@ -60,9 +60,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     @Override
     public void createUser(User user) {
         user.setCreateTime(new Date());
-        user.setState(Content.USER_VALID);
+        user.setState(Constant.USER_STATE_VALID);
         user.setSalt(ShiroUtils.getSalt());
-        user.setPassword(ShiroUtils.MD5(Content.DEFALT_PSW,user.getSalt()));
+        user.setPassword(ShiroUtils.MD5(Constant.DEFAULT_PSW,user.getSalt()));
         save(user);
         // 保存用户角色
         String[] roles = user.getRoleIds().split(StringPool.COMMA);
