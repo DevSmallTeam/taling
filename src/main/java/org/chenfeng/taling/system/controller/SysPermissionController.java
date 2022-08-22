@@ -58,7 +58,7 @@ public class SysPermissionController extends BaseController {
     @ResponseBody
     @PostMapping("createSysPermission")
     public DataResponse createSysPermission(@Valid SysPermission sysPermission){
-        this.sysPermissionService.createSyspermission(sysPermission);
+        this.sysPermissionService.createSysPermission(sysPermission);
         return new DataResponse().success().message("新增菜单/按钮成功");
     }
 

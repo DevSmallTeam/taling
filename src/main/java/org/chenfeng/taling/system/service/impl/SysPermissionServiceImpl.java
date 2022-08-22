@@ -41,7 +41,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     @Override
     @Transactional
-    public void createSyspermission(SysPermission sysPermission) {
+    public void createSysPermission(SysPermission sysPermission) {
         sysPermission.setCreateTime(new Date());
         this.setSysPermission(sysPermission);
         this.baseMapper.insert(sysPermission);

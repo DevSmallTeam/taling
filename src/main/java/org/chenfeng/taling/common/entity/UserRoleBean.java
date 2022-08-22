@@ -1,5 +1,7 @@
 package org.chenfeng.taling.common.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -7,6 +9,7 @@ import java.io.Serializable;
  * @Package org.chenfeng.taling.common.entity
  * @date 2019/9/3 17:27
  */
+@Data
 public class UserRoleBean implements Serializable {
 
     private static final long serialVersionUID = -1204124150212632919L;
@@ -31,43 +34,4 @@ public class UserRoleBean implements Serializable {
      */
     private String userName;
 
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getRoleDescription() {
-        return roleDescription;
-    }
-
-    public void setRoleDescription(String roleDescription) {
-        this.roleDescription = roleDescription;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 }

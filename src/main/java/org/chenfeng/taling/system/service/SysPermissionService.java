@@ -17,7 +17,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * 新增菜单/按钮
      * @param sysPermission
      */
-    void createSyspermission(SysPermission sysPermission);
+    void createSysPermission(SysPermission sysPermission);
 
     /**
      * 修改菜单/按钮
