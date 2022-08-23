@@ -23,7 +23,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableSwagger2WebMvc
-@Profile({"local"})
+@Profile({"local","dev"})
 public class Swagger2Configure {
 
     @Resource
