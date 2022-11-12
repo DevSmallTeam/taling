@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="org.chenfeng.taling.system.entity.SysRole">
         <id column="role_id" property="roleId" />
         <result column="available" property="available" />
-        <result column="creat_time" property="creatTime" />
+        <result column="create_time" property="createTime" />
         <result column="description" property="description" />
         <result column="role" property="role" />
     </resultMap>
@@ -17,7 +17,8 @@
     </select>
 
     <!-- 查询角色权限 -->
-    <select id="findRolePermissions" parameterType="sysRole" resultType="sysRole">
+    <select id="findRolePermissions" parameterType="org.chenfeng.taling.system.entity.SysRole"
+            resultType="org.chenfeng.taling.system.entity.SysRole">
         select sr.role_id,sr.role,sr.create_time,group_concat(srp.permission_id) permission_ids
         from sys_role sr
         left join sys_role_permission srp on (sr.role_id = srp.role_id)
