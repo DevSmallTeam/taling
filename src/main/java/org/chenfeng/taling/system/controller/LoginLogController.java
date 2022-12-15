@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author chenfeng
@@ -33,7 +33,7 @@ public class LoginLogController {
 
     @ApiOperation("登录日志列表")
     @GetMapping("loginRecordList")
-    public String loginRecordList(){
+    public String loginRecordList() {
         return "user/loginRecord";
     }
 
@@ -42,22 +42,16 @@ public class LoginLogController {
     @PostMapping("loginRecord")
     public DataResponse loginRecord(@RequestParam Integer pageNumber,
                                     @RequestParam(defaultValue = "10") Integer pageSize,
-                                    LoginLog loginLog){
-        Page<LoginLog> page = new Page<LoginLog>(pageNumber,pageSize);
+                                    LoginLog loginLog) {
+        Page<LoginLog> page = new Page<LoginLog>(pageNumber, pageSize);
         QueryWrapper<LoginLog> ew = new QueryWrapper<LoginLog>();
-        if(loginLog != null){
-            if(StringUtils.isNotBlank(loginLog.getUserName())){
-                ew.like("user_name",loginLog.getUserName());
-            }
-            if(StringUtils.isNotBlank(loginLog.getLoginTimeFrom())){
-                ew.ge("login_time",loginLog.getLoginTimeFrom());
-            }
-            if(StringUtils.isNotBlank(loginLog.getLoginTimeTo())){
-                ew.le("login_time",loginLog.getLoginTimeTo());
-            }
+        if (loginLog != null) {
+            ew.like(StringUtils.isNotBlank(loginLog.getUserName()), "user_name", loginLog.getUserName());
+            ew.ge(StringUtils.isNotBlank(loginLog.getLoginTimeFrom()), "login_time", loginLog.getLoginTimeFrom());
+            ew.le(StringUtils.isNotBlank(loginLog.getLoginTimeTo()), "login_time", loginLog.getLoginTimeTo());
             ew.orderByDesc("login_time");
         }
-        IPage<LoginLog> pageData =  loginLogService.page(page,ew);
+        IPage<LoginLog> pageData = loginLogService.page(page, ew);
         return new DataResponse().success().count(page.getTotal()).data(pageData.getRecords());
     }
 

@@ -100,6 +100,9 @@
                 var searchDate = data.field.dateRange.split(' - ');
                 data.field.loginTimeFrom = searchDate[0];
                 data.field.loginTimeTo = searchDate[1];
+            }else{
+                data.field.loginTimeFrom = '';
+                data.field.loginTimeTo = '';
             }
             data.field.dateRange = undefined;
             insTb.reload({where: data.field}, 'data');
