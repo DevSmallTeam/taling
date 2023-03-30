@@ -1,0 +1,55 @@
+app:
+  #AppId是应用的身份信息，是配置中心获取配置的一个重要信息。
+  id: taling-apollo
+apollo:
+  meta: http://172.16.15.204:8080/
+  bootstrap:
+    #在应用启动阶段，向Spring容器注入被托管的application.properties文件的配置信息。
+    enabled: true
+      #将Apollo配置加载提到初始化日志系统之前
+#    eagerLoad:
+#      enabled: true
+
+spring:
+  #数据库连接池类型
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.28.160:13306/taling?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+    username: ENC(GkDU6rFtqp/PqiRWiSQPeA==)
+    password: ENC(5s1SKdcHPTvkADVzwdkNHg==)
+    ##password: 123456
+  redis:
+    #redis模式选择 single 为单机模式 sentinel 为主从模式
+    model: single
+    #单机配置
+    # Redis数据库索引（默认为 0）
+    database: 0
+    # Redis服务器地址
+    host: 192.168.28.160
+    # Redis服务器连接端口
+    port: 16379
+    # Redis 密码
+    password:
+    # 连接超时时间（毫秒）
+    timeout: 0
+    jedis:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 8
+        # 连接池中的最大空闲连接
+        max-idle: 500
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 2000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 10000
+    #redis高可用配置
+    sentinel:
+      #这个值与redis安装配置文件有关
+      master: redis_sentinel
+      nodes: 127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381
+jasypt:
+  encryptor:
+    password: chenfeng
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator

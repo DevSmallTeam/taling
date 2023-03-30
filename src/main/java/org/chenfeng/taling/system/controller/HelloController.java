@@ -49,7 +49,7 @@ public class HelloController {
 
     @ResponseBody
     @RequestMapping("/hello/{param}")
-    @EnableAntiReplay(value = "hello",expireSeconds = 30)
+//    @EnableAntiReplay(value = "hello",expireSeconds = 30)
 //    @RequiresPermissions("system:view")
     public String index(Model model, @PathVariable String param){
         log.debug("debug级别日志");

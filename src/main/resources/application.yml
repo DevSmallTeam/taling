@@ -1,12 +1,12 @@
 spring:
   profiles:
-    active: local
+    active: sit
   application:
     name: taling-show
   # elasticsearch 配置
   data:
     elasticsearch:
-      cluster-name: my-es
+      cluster-name: ali-es
       cluster-nodes: 47.115.81.246:9300
 
 server:
@@ -38,6 +38,6 @@ mybatis-plus:
 system:
   access:
     filter:
-      ignore-urls: /v2/**,/webjars/**,/swagger-resources/**,/doc**,/jq-module/**,/assets/**,/json/**,/pages/**,/login,/register,/captcha,/favicon.ico
+      ignore-urls: /jq-module/**,/assets/**,/json/**,/pages/**,/login,/register,/captcha,/favicon.ico
 #配置sql日志输出
 logging.level.org.chenfeng.taling.mapper: debug
